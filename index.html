@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sailfish Financial — Automated Bookkeeping for Small Businesses</title>
+  <meta name="description" content="Automated monthly bookkeeping for US small businesses. Invoices, expense tracking, P&L reports, and tax estimates — handled for you." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #0D1F3C;
+      --navy-mid:   #1B3A6B;
+      --brand:      #1B4F8A;
+      --brand-light:#2563EB;
+      --brand-pale: #EFF6FF;
+      --accent:     #10B981;
+      --accent-dark:#059669;
+      --gold:       #F59E0B;
+      --text:       #111827;
+      --text-mid:   #374151;
+      --muted:      #6B7280;
+      --border:     #E5E7EB;
+      --white:      #FFFFFF;
+      --radius:     12px;
+      --shadow-sm:  0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md:  0 4px 16px rgba(0,0,0,0.10);
+      --shadow-lg:  0 10px 40px rgba(0,0,0,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      color: var(--text);
+      background: #F8FAFC;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Scroll animations ──────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ── Nav ──────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 68px;
+      background: rgba(13,31,60,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      transition: background 0.3s;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+    .nav-logo-mark {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, #2563EB, #10B981);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .nav-logo-text { color: white; font-size: 1.1rem; font-weight: 700; letter-spacing: -0.3px; }
+    .nav-logo-text span { color: #93C5FD; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: white; }
+    .nav-cta {
+      background: var(--accent);
+      color: white !important;
+      padding: 0.5rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--accent-dark) !important; color: white !important; }
+
+    /* ── Hero ──────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--navy) 0%, #0f2d5e 55%, #1a1a4e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(37,99,235,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(16,185,129,0.10) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .hero-content { position: relative; max-width: 760px; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(16,185,129,0.15);
+      border: 1px solid rgba(16,185,129,0.3);
+      color: #6EE7B7;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      margin-bottom: 1.75rem;
+    }
+    .hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .hero h1 {
+      font-size: clamp(2.25rem, 6vw, 3.75rem);
+      font-weight: 800;
+      line-height: 1.12;
+      color: white;
+      letter-spacing: -1.5px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(90deg, #60A5FA, #34D399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.7);
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--accent);
+      color: white;
+      padding: 0.9rem 2rem;
+      border-radius: 8px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px rgba(16,185,129,0.35);
+    }
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16,185,129,0.4);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 0.9rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: background 0.2s, transform 0.15s;
+      backdrop-filter: blur(4px);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      flex-wrap: wrap;
+    }
+    .hero-stat-value { font-size: 1.75rem; font-weight: 800; color: white; }
+    .hero-stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 0.1rem; }
+
+    /* ── Trust bar ──────────────────────────────────────────── */
+    .trust-bar {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .trust-item-icon { font-size: 1rem; }
+
+    /* ── Section wrapper ────────────────────────────────────── */
+    .section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-eyebrow {
+      display: inline-block;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--brand-light);
+      margin-bottom: 0.75rem;
+    }
+    .section-title { font-size: clamp(1.6rem, 4vw, 2.25rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 0.75rem; }
+    .section-sub { color: var(--muted); font-size: 1rem; max-width: 500px; margin: 0 auto; }
+
+    /* ── How it works ───────────────────────────────────────── */
+    .how-section { background: var(--navy); }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: calc(16.6% + 40px);
+      right: calc(16.6% + 40px);
+      height: 2px;
+      background: linear-gradient(90deg, #2563EB, #10B981);
+      z-index: 0;
+    }
+    .step { text-align: center; padding: 0 1.5rem; position: relative; z-index: 1; }
+    .step-num {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand-light), var(--accent));
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 4px 20px rgba(37,99,235,0.4);
+    }
+    .step h3 { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 0.5rem; }
+    .step p { font-size: 0.875rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+    /* ── Services ───────────────────────────────────────────── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .service-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+    }
+    .service-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+      border-color: #BFDBFE;
+    }
+    .service-icon {
+      width: 48px; height: 48px;
+      background: var(--brand-pale);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    .service-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .service-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── Pricing ────────────────────────────────────────────── */
+    .pricing-section { background: white; }
+    .tiers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+      align-items: start;
+    }
+    .tier {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1.75rem;
+      position: relative;
+      background: white;
+      transition: all 0.2s;
+    }
+    .tier:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .tier.popular {
+      border-color: var(--brand-light);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.08), var(--shadow-md);
+    }
+    .popular-badge {
+      position: absolute;
+      top: -14px; left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, var(--brand-light), var(--brand));
+      color: white;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 4px 16px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .tier-name {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .tier-price {
+      display: flex;
+      align-items: baseline;
+      gap: 0.2rem;
+      margin-bottom: 0.4rem;
+    }
+    .tier-price-currency { font-size: 1.3rem; font-weight: 700; color: var(--text-mid); }
+    .tier-price-amount { font-size: 3rem; font-weight: 800; color: var(--text); line-height: 1; }
+    .tier-price-period { font-size: 0.875rem; color: var(--muted); }
+    .tier-desc { font-size: 0.825rem; color: var(--muted); margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+    .tier-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .tier-features li { font-size: 0.875rem; display: flex; align-items: flex-start; gap: 0.6rem; color: var(--text-mid); }
+    .tier-features li .check { color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .tier-cta {
+      display: block;
+      text-align: center;
+      margin-top: 1.75rem;
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .tier-cta-outline {
+      border: 1.5px solid var(--border);
+      color: var(--text);
+    }
+    .tier-cta-outline:hover { border-color: var(--brand-light); color: var(--brand-light); }
+    .tier-cta-solid {
+      background: var(--brand-light);
+      color: white;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+    }
+    .tier-cta-solid:hover { background: var(--brand); transform: translateY(-1px); }
+
+    /* Addons */
+    .addons-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
+    .addon-card {
+      background: var(--brand-pale);
+      border: 1px solid #BFDBFE;
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+    }
+    .addon-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.4rem; }
+    .addon-name { font-size: 0.9rem; font-weight: 700; }
+    .addon-price { font-size: 0.9rem; font-weight: 700; color: var(--brand-light); white-space: nowrap; }
+    .addon-desc { font-size: 0.8rem; color: var(--muted); }
+
+    /* ── Calculator ─────────────────────────────────────────── */
+    .calc-section { background: var(--brand-pale); }
+    .calc-card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .calc-header {
+      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+      padding: 1.5rem 2rem;
+    }
+    .calc-header h3 { color: white; font-size: 1.1rem; font-weight: 700; }
+    .calc-header p { color: rgba(255,255,255,0.55); font-size: 0.85rem; margin-top: 0.25rem; }
+    .calc-body { padding: 2rem; }
+    .calc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+    .calc-row:last-of-type { border-bottom: none; }
+    .calc-label { font-size: 0.9rem; font-weight: 500; color: var(--text-mid); }
+    .calc-row select {
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.875rem;
+      color: var(--text);
+      background: white;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .calc-row select:focus { outline: none; border-color: var(--brand-light); }
+    .calc-row input[type="checkbox"] {
+      width: 18px; height: 18px;
+      accent-color: var(--brand-light);
+      cursor: pointer;
+    }
+    .calc-footer {
+      background: linear-gradient(135deg, var(--brand-light), var(--brand));
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .calc-footer-label { color: rgba(255,255,255,0.8); font-size: 0.875rem; font-weight: 600; }
+    .calc-footer-amount { color: white; font-size: 2rem; font-weight: 800; }
+    .calc-note { text-align: center; font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
+    .calc-action { text-align: center; margin-top: 1.5rem; }
+
+    /* ── FAQ ────────────────────────────────────────────────── */
+    .faq-list { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
+    .faq-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 1.25rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      transition: background 0.15s;
+      font-family: inherit;
+    }
+    .faq-question:hover { background: var(--brand-pale); }
+    .faq-question.open { color: var(--brand-light); }
+    .faq-chevron {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--brand-pale);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      transition: transform 0.25s, background 0.2s;
+      color: var(--brand-light);
+      font-weight: 700;
+    }
+    .faq-question.open .faq-chevron { transform: rotate(180deg); background: var(--brand-light); color: white; }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-answer.open { max-height: 400px; }
+    .faq-answer-inner {
+      padding: 0 1.5rem 1.25rem;
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+
+    /* ── Intake Form ────────────────────────────────────────── */
+    .intake-section { background: white; }
+    .form-wrapper {
+      max-width: 780px;
+      margin: 0 auto;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    .form-top {
+      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+      padding: 2rem 2.5rem;
+    }
+    .form-top h3 { color: white; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .form-top p { color: rgba(255,255,255,0.6); font-size: 0.875rem; }
+    .form-body { padding: 2.5rem; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--text-mid); }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.65rem 0.9rem;
+      font-size: 0.9rem;
+      color: var(--text);
+      font-family: inherit;
+      background: white;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--brand-light);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-divider { grid-column: 1/-1; border: none; border-top: 1px solid var(--border); margin: 0.25rem 0; }
+    .form-section-label {
+      grid-column: 1/-1;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--brand-light);
+      padding-top: 0.5rem;
+    }
+    .checkbox-group { display: flex; flex-direction: column; gap: 0.6rem; }
+    .checkbox-item {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.875rem; color: var(--text-mid); cursor: pointer;
+    }
+    .checkbox-item input { width: 16px; height: 16px; accent-color: var(--brand-light); cursor: pointer; }
+    .submit-btn {
+      margin-top: 2rem;
+      width: 100%;
+      background: linear-gradient(90deg, var(--brand-light), var(--brand));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.35);
+      font-family: inherit;
+    }
+    .submit-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+    .form-reassurance {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .form-reassurance-item { font-size: 0.78rem; color: var(--muted); display: flex; align-items: center; gap: 0.35rem; }
+
+    /* Success */
+    #success-msg {
+      display: none;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .success-icon { font-size: 3rem; margin-bottom: 1rem; }
+    #success-msg h3 { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 0.5rem; }
+    #success-msg p { color: var(--muted); font-size: 0.95rem; }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .footer-logo { font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 0.5rem; }
+    .footer-logo span { color: #93C5FD; }
+    .footer-tagline { font-size: 0.82rem; color: rgba(255,255,255,0.4); margin-bottom: 1.5rem; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.82rem; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: white; }
+    .footer-bottom { font-size: 0.78rem; color: rgba(255,255,255,0.25); }
+
+    /* ── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .steps::before { display: none; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: 1; }
+      .form-section-label, .form-divider { grid-column: 1; }
+      .trust-bar { gap: 1.25rem; }
+      .hero-stats { gap: 2rem; }
+      .calc-footer { flex-direction: column; text-align: center; gap: 0.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">🐟</div>
+    <div class="nav-logo-text">Sailfish <span>Financial</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="#how-it-works">How It Works</a>
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="#intake" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Now accepting new clients</div>
+    <h1>Bookkeeping that runs<br><span class="highlight">on autopilot.</span></h1>
+    <p>Automated monthly bookkeeping for US small businesses. Invoices, expense tracking, P&amp;L reports, and quarterly tax estimates — all handled for you.</p>
+    <div class="hero-actions">
+      <a href="#intake" class="btn-primary">Get Started — Free Setup Consult</a>
+      <a href="#pricing" class="btn-secondary">View Pricing ↓</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-value">100%</div>
+        <div class="hero-stat-label">US-Based</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">IRS</div>
+        <div class="hero-stat-label">Schedule C Ready</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">$7</div>
+        <div class="hero-stat-label">Avg. Cost to Run / Month</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">24hr</div>
+        <div class="hero-stat-label">Response Time</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Trust bar -->
+<div class="trust-bar">
+  <div class="trust-item"><span class="trust-item-icon">🔒</span> Your data stays in your Google Drive</div>
+  <div class="trust-item"><span class="trust-item-icon">🇺🇸</span> US tax law compliant</div>
+  <div class="trust-item"><span class="trust-item-icon">📊</span> IRS Schedule C categories</div>
+  <div class="trust-item"><span class="trust-item-icon">⚡</span> Powered by AI + human review</div>
+  <div class="trust-item"><span class="trust-item-icon">🚫</span> No hidden fees, cancel anytime</div>
+</div>
+
+<!-- How it works -->
+<div class="how-section section" id="how-it-works">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow" style="color:#6EE7B7;">How It Works</div>
+      <h2 class="section-title" style="color:white;">Up and running in 3 steps</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.5);">No software to install. No learning curve. We handle everything.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal reveal-delay-1">
+        <div class="step-num">1</div>
+        <h3>Fill Out the Form</h3>
+        <p>Tell us about your business, your bank, and the plan that fits. Takes 3 minutes.</p>
+      </div>
+      <div class="step reveal reveal-delay-2">
+        <div class="step-num">2</div>
+        <h3>We Set Everything Up</h3>
+        <p>We configure your Google Sheets, Drive folders, and invoice templates within 1 business day.</p>
+      </div>
+      <div class="step reveal reveal-delay-3">
+        <div class="step-num">3</div>
+        <h3>Monthly Autopilot</h3>
+        <p>Each month: invoices go out, statements get imported, expenses are categorized, P&amp;L is updated. You just review.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Services -->
+<div class="section" id="services">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Services</div>
+      <h2 class="section-title">Everything your books need</h2>
+      <p class="section-sub">We handle the numbers so you can focus on running your business.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">📄</div>
+        <h3>Invoice Generation</h3>
+        <p>Branded PDF invoices created and delivered each month with sequential numbering. Stored and organized automatically in Google Drive.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon">🏦</div>
+        <h3>Expense Tracking</h3>
+        <p>Bank and credit card statements imported and AI-categorized by IRS Schedule C category. Deductible amounts calculated with live formulas.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon">📊</div>
+        <h3>P&amp;L Reporting</h3>
+        <p>Live profit &amp; loss statement updated every month across all 12 months plus YTD. Always know exactly where your business stands.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">⏰</div>
+        <h3>Accounts Receivable</h3>
+        <p>Overdue invoices flagged automatically with escalating follow-up drafts. Get paid faster without the awkward chasing.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon">🧾</div>
+        <h3>Quarterly Tax Estimates</h3>
+        <p>Federal self-employment and income tax estimates with IRS payment schedules — so you're never surprised at tax time.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon">🔒</div>
+        <h3>Secure by Design</h3>
+        <p>All your data lives in your own Google account. You always have full access and ownership — nothing locked behind proprietary software.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pricing -->
+<div class="pricing-section section" id="pricing">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Pricing</div>
+      <h2 class="section-title">Simple, transparent pricing</h2>
+      <p class="section-sub">No contracts. No setup fees on monthly plans. Cancel anytime.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier reveal reveal-delay-1">
+        <div class="tier-name">Basic</div>
+        <div class="tier-price">
+          <span class="tier-price-currency">$</span>
+          <span class="tier-price-amount">150</span>
+          <span class="tier-price-period">/mo</span>
+        </div>
+        <div class="tier-desc">Best for freelancers and solo operators with simple books</div>
+        <ul class="tier-features">
+          <li><span class="check">✓</span> Up to 100 transactions/month</li>
+          <li><span class="check">✓</span> Monthly expense import &amp; categorization</li>
+          <li><span class="check">✓</span> P&amp;L Summary (Google Sheets)</li>
+          <li><span class="check">✓</span> Invoice tracking</li>
+          <li><span class="check">✓</span> AR monitoring</li>
+          <li><span class="check">✓</span> Email support</li>
+        </ul>
+        <a href="#intake" class="tier-cta tier-cta-outline">Get Started</a>
+      </div>
+
+      <div class="tier popular reveal reveal-delay-2">
+        <div class="popular-badge">Most Popular</div>
+        <div class="tier-name">Standard</div>
+        <div class="tier-price">
+          <span class="tier-price-currency">$</span>
+          <span class="tier-price-amount">250</span>
+          <span class="tier-price-period">/mo</span>
+        </div>
+        <div class="tier-desc">Best for growing businesses with multiple accounts</div>
+        <ul class="tier-features">
+          <li><span class="check">✓</span> Up to 300 transactions/month</li>
+          <li><span class="check">✓</span> Everything in Basic</li>
+          <li><span class="check">✓</span> Branded PDF invoice generation</li>
+          <li><span class="check">✓</span> Auto Drive organization</li>
+          <li><span class="check">✓</span> Payment follow-up drafts</li>
+          <li><span class="check">✓</span> Multiple bank accounts</li>
+          <li><span class="check">✓</span> Priority support</li>
+        </ul>
+        <a href="#intake" class="tier-cta tier-cta-solid">Get Started</a>
+      </div>
+
+      <div class="tier reveal reveal-delay-3">
+        <div class="tier-name">Premium</div>
+        <div class="tier-price">
+          <span class="tier-price-currency">$</span>
+          <span class="tier-price-amount">400</span>
+          <span class="tier-price-period">/mo</span>
+        </div>
+        <div class="tier-desc">Best for established businesses needing full-service books</div>
+        <ul class="tier-features">
+          <li><span class="check">✓</span> Unlimited transactions</li>
+          <li><span class="check">✓</span> Everything in Standard</li>
+          <li><span class="check">✓</span> Quarterly tax estimates</li>
+          <li><span class="check">✓</span> Mileage log tracking</li>
+          <li><span class="check">✓</span> Custom chart of accounts</li>
+          <li><span class="check">✓</span> Monthly review call</li>
+          <li><span class="check">✓</span> Same-day turnaround</li>
+        </ul>
+        <a href="#intake" class="tier-cta tier-cta-outline">Get Started</a>
+      </div>
+    </div>
+
+    <!-- Add-ons -->
+    <div class="section-eyebrow reveal" style="text-align:center;margin-bottom:1rem;">Add-On Services</div>
+    <div class="addons-grid reveal">
+      <div class="addon-card">
+        <div class="addon-header">
+          <span class="addon-name">Onboarding Setup</span>
+          <span class="addon-price">$100 one-time</span>
+        </div>
+        <p class="addon-desc">Full setup of your bookkeeping system, Drive folders, spreadsheets, and invoice templates.</p>
+      </div>
+      <div class="addon-card">
+        <div class="addon-header">
+          <span class="addon-name">Quarterly Tax Estimate</span>
+          <span class="addon-price">$75 / quarter</span>
+        </div>
+        <p class="addon-desc">Federal SE tax + income tax estimate with IRS quarterly payment schedule.</p>
+      </div>
+      <div class="addon-card">
+        <div class="addon-header">
+          <span class="addon-name">Year-End Summary</span>
+          <span class="addon-price">$200 / year</span>
+        </div>
+        <p class="addon-desc">Clean annual P&amp;L formatted for your CPA. Delivered every January.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Calculator -->
+<div class="calc-section section" id="calculator">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Pricing Calculator</div>
+      <h2 class="section-title">Estimate your monthly cost</h2>
+      <p class="section-sub">Adjust the options to see your total investment.</p>
+    </div>
+    <div class="calc-card reveal">
+      <div class="calc-header">
+        <h3>Build Your Plan</h3>
+        <p>All prices shown in USD. Add-ons averaged to monthly equivalents.</p>
+      </div>
+      <div class="calc-body">
+        <div class="calc-row">
+          <span class="calc-label">Monthly plan</span>
+          <select id="calc-plan" onchange="updateCalc()">
+            <option value="0">Select a plan...</option>
+            <option value="150">Basic — $150/mo (up to 100 transactions)</option>
+            <option value="250">Standard — $250/mo (up to 300 transactions)</option>
+            <option value="400">Premium — $400/mo (unlimited)</option>
+          </select>
+        </div>
+        <div class="calc-row">
+          <span class="calc-label">Onboarding setup ($100 one-time)</span>
+          <input type="checkbox" id="calc-onboarding" onchange="updateCalc()" />
+        </div>
+        <div class="calc-row">
+          <span class="calc-label">Quarterly tax estimates ($75/quarter)</span>
+          <input type="checkbox" id="calc-tax" onchange="updateCalc()" />
+        </div>
+        <div class="calc-row">
+          <span class="calc-label">Year-end summary report ($200/year)</span>
+          <input type="checkbox" id="calc-yearend" onchange="updateCalc()" />
+        </div>
+      </div>
+      <div class="calc-footer">
+        <div>
+          <div class="calc-footer-label">Estimated Monthly Total</div>
+        </div>
+        <div class="calc-footer-amount" id="calc-result">$—</div>
+      </div>
+      <p class="calc-note">* Onboarding is one-time. Tax estimates billed quarterly. Year-end billed annually. Shown as monthly averages above.</p>
+      <div class="calc-action">
+        <a href="#intake" class="btn-primary">Get Started with This Plan</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="section" id="faq">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">FAQ</div>
+      <h2 class="section-title">Common questions</h2>
+      <p class="section-sub">Everything you need to know before getting started.</p>
+    </div>
+    <div class="faq-list">
+
+      <div class="faq-item reveal">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How do I share my bank statements with you?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Most banks let you download a CSV export of your transactions directly from your online banking portal. You send that file to me each month and I handle the rest. No need to share login credentials — ever.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Is my financial data secure?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Yes. All your data lives in your own Google Drive account — not on my servers. You have full ownership and access at all times. The only files I receive are the monthly CSV exports, which I process and then delete.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What if I have transactions from multiple accounts?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Standard and Premium plans support multiple bank accounts and credit cards. Just send me the CSV exports for each account and they'll all be imported and categorized together into one unified expense tracker.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Do I need QuickBooks or any other software?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            No. Everything runs on Google Sheets and Google Drive — both free with a Google account. No subscriptions to QuickBooks, FreshBooks, or any other software required. If you already use QuickBooks, I can work with your exports too.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How are expenses categorized?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Transactions are categorized using AI trained on IRS Schedule C categories — the standard expense categories for US sole proprietors and small businesses. Every import is reviewed for accuracy, and you can always request corrections. Over time, the system learns your specific merchants for near-perfect accuracy.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Can I cancel at any time?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Yes, cancel anytime with no penalties. Your Google Sheets and Drive files are yours to keep — everything stays in your Google account even after cancellation.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Do you handle state taxes?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            The quarterly tax estimates cover federal self-employment tax and federal income tax. State income taxes vary significantly by state and are flagged for you to review with your CPA. Florida (where we're based) has no state income tax, which simplifies things considerably for FL-based clients.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Intake Form -->
+<div class="intake-section section" id="intake">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Get Started</div>
+      <h2 class="section-title">Let's set up your books</h2>
+      <p class="section-sub">Fill this out and I'll be in touch within 1 business day.</p>
+    </div>
+    <div class="form-wrapper reveal">
+      <div class="form-top">
+        <h3>New Client Inquiry</h3>
+        <p>Takes about 3 minutes. No commitment required.</p>
+      </div>
+      <div class="form-body">
+        <form id="intake-form" onsubmit="handleSubmit(event)">
+          <div class="form-grid">
+
+            <div class="form-section-label">Your Business</div>
+
+            <div class="form-group">
+              <label for="business-name">Business Name *</label>
+              <input type="text" id="business-name" placeholder="Acme Co" required />
+            </div>
+            <div class="form-group">
+              <label for="business-type">Type of Business *</label>
+              <input type="text" id="business-type" placeholder="e.g. Freelance designer, Retail shop" required />
+            </div>
+            <div class="form-group">
+              <label for="contact-name">Your Name *</label>
+              <input type="text" id="contact-name" placeholder="Jane Smith" required />
+            </div>
+            <div class="form-group">
+              <label for="contact-email">Email Address *</label>
+              <input type="email" id="contact-email" placeholder="jane@acmeco.com" required />
+            </div>
+            <div class="form-group">
+              <label for="contact-phone">Phone Number</label>
+              <input type="tel" id="contact-phone" placeholder="(555) 555-5555" />
+            </div>
+            <div class="form-group">
+              <label for="state">State *</label>
+              <select id="state" required>
+                <option value="">Select state...</option>
+                <option>Alabama</option><option>Alaska</option><option>Arizona</option>
+                <option>Arkansas</option><option>California</option><option>Colorado</option>
+                <option>Connecticut</option><option>Delaware</option><option selected>Florida</option>
+                <option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+                <option>Illinois</option><option>Indiana</option><option>Iowa</option>
+                <option>Kansas</option><option>Kentucky</option><option>Louisiana</option>
+                <option>Maine</option><option>Maryland</option><option>Massachusetts</option>
+                <option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+                <option>Missouri</option><option>Montana</option><option>Nebraska</option>
+                <option>Nevada</option><option>New Hampshire</option><option>New Jersey</option>
+                <option>New Mexico</option><option>New York</option><option>North Carolina</option>
+                <option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+                <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option>
+                <option>South Carolina</option><option>South Dakota</option><option>Tennessee</option>
+                <option>Texas</option><option>Utah</option><option>Vermont</option>
+                <option>Virginia</option><option>Washington</option><option>West Virginia</option>
+                <option>Wisconsin</option><option>Wyoming</option>
+              </select>
+            </div>
+
+            <hr class="form-divider" />
+            <div class="form-section-label">Banking &amp; Volume</div>
+
+            <div class="form-group">
+              <label for="bank">Primary Bank *</label>
+              <select id="bank" required>
+                <option value="">Select bank...</option>
+                <option value="chase_checking">Chase Bank</option>
+                <option value="bofa_checking">Bank of America</option>
+                <option value="wells_fargo">Wells Fargo</option>
+                <option value="amex">American Express</option>
+                <option value="capital_one">Capital One</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="txn-volume">Monthly Transactions *</label>
+              <select id="txn-volume" required>
+                <option value="">Select range...</option>
+                <option value="under50">Under 50</option>
+                <option value="50to100">50–100</option>
+                <option value="100to300">100–300</option>
+                <option value="over300">300+</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label>Additional Accounts</label>
+              <div class="checkbox-group">
+                <label class="checkbox-item"><input type="checkbox" name="accounts" value="credit_card" /> Business credit card</label>
+                <label class="checkbox-item"><input type="checkbox" name="accounts" value="paypal" /> PayPal / Venmo Business</label>
+                <label class="checkbox-item"><input type="checkbox" name="accounts" value="savings" /> Savings account</label>
+              </div>
+            </div>
+
+            <hr class="form-divider" />
+            <div class="form-section-label">Plan Selection</div>
+
+            <div class="form-group">
+              <label for="plan">Monthly Plan *</label>
+              <select id="plan" required>
+                <option value="">Select a plan...</option>
+                <option value="basic">Basic ($150/mo)</option>
+                <option value="standard">Standard ($250/mo)</option>
+                <option value="premium">Premium ($400/mo)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="billing-day">Preferred Billing Day</label>
+              <select id="billing-day">
+                <option value="1">1st of the month</option>
+                <option value="15">15th of the month</option>
+                <option value="28">28th of the month</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label>Add-On Services</label>
+              <div class="checkbox-group">
+                <label class="checkbox-item"><input type="checkbox" name="addons" value="onboarding" /> Onboarding setup ($100 one-time)</label>
+                <label class="checkbox-item"><input type="checkbox" name="addons" value="tax_estimates" /> Quarterly tax estimates ($75/quarter)</label>
+                <label class="checkbox-item"><input type="checkbox" name="addons" value="year_end" /> Year-end summary report ($200/year)</label>
+              </div>
+            </div>
+
+            <hr class="form-divider" />
+            <div class="form-section-label">Anything Else?</div>
+
+            <div class="form-group full">
+              <label for="notes">Notes or Questions</label>
+              <textarea id="notes" placeholder="Tell me about your business, specific needs, or any questions..."></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">Submit — I'll be in touch within 1 business day →</button>
+
+          <div class="form-reassurance">
+            <span class="form-reassurance-item">🔒 Your info is never shared</span>
+            <span class="form-reassurance-item">🚫 No commitment required</span>
+            <span class="form-reassurance-item">⚡ Response within 24 hours</span>
+          </div>
+        </form>
+
+        <div id="success-msg">
+          <div class="success-icon">🎉</div>
+          <h3>You're on your way!</h3>
+          <p>I received your inquiry and will reach out to <strong id="success-email"></strong> within 1 business day to get your books set up.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">Sailfish <span>Financial</span></div>
+  <div class="footer-tagline">Automated bookkeeping for US small businesses</div>
+  <div class="footer-links">
+    <a href="#how-it-works">How It Works</a>
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="#intake">Get Started</a>
+  </div>
+  <div class="footer-bottom">
+    Ford Fox · Tallahassee, FL · sailfishfinancial@gmail.com · (770) 580-9850<br/>
+    © 2026 Sailfish Financial. All rights reserved.
+  </div>
+</footer>
+
+<script>
+  // ── Scroll reveal ──────────────────────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Calculator ─────────────────────────────────────────────
+  function updateCalc() {
+    const plan = parseFloat(document.getElementById('calc-plan').value) || 0;
+    let total = plan;
+    if (document.getElementById('calc-onboarding').checked) total += 100 / 12;
+    if (document.getElementById('calc-tax').checked)        total += 75 / 3;
+    if (document.getElementById('calc-yearend').checked)    total += 200 / 12;
+
+    document.getElementById('calc-result').textContent =
+      plan === 0 && total < 1 ? '$—' : '$' + Math.round(total) + '/mo';
+  }
+
+  // ── FAQ accordion ──────────────────────────────────────────
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+
+    // Close all
+    document.querySelectorAll('.faq-question.open').forEach(q => {
+      q.classList.remove('open');
+      q.nextElementSibling.classList.remove('open');
+    });
+
+    // Open this one if it was closed
+    if (!isOpen) {
+      btn.classList.add('open');
+      answer.classList.add('open');
+    }
+  }
+
+  // ── Form submit ────────────────────────────────────────────
+  function handleSubmit(e) {
+    e.preventDefault();
+    const email     = document.getElementById('contact-email').value;
+    const name      = document.getElementById('contact-name').value;
+    const biz       = document.getElementById('business-name').value;
+    const bizType   = document.getElementById('business-type').value;
+    const phone     = document.getElementById('contact-phone').value;
+    const state     = document.getElementById('state').value;
+    const bank      = document.getElementById('bank').value;
+    const txnVol    = document.getElementById('txn-volume').value;
+    const plan      = document.getElementById('plan').value;
+    const billing   = document.getElementById('billing-day').value;
+    const notes     = document.getElementById('notes').value;
+    const addons    = [...document.querySelectorAll('input[name="addons"]:checked')].map(el => el.value).join(', ') || 'None';
+    const accounts  = [...document.querySelectorAll('input[name="accounts"]:checked')].map(el => el.value).join(', ') || 'None';
+
+    const body = encodeURIComponent(
+      `New bookkeeping inquiry from ${name}\n\n` +
+      `Business: ${biz}\nType: ${bizType}\nState: ${state}\n` +
+      `Phone: ${phone}\nEmail: ${email}\n\n` +
+      `Bank: ${bank}\nTransaction volume: ${txnVol}\nAdditional accounts: ${accounts}\n\n` +
+      `Plan: ${plan}\nBilling day: ${billing}\nAdd-ons: ${addons}\n\n` +
+      `Notes: ${notes}`
+    );
+
+    window.location.href =
+      `mailto:sailfishfinancial@gmail.com?subject=New Bookkeeping Inquiry - ${encodeURIComponent(biz)}&body=${body}`;
+
+    document.getElementById('intake-form').style.display = 'none';
+    document.getElementById('success-email').textContent = email;
+    document.getElementById('success-msg').style.display = 'block';
+  }
+</script>
+</body>
+</html>
