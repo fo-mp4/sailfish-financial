@@ -24,13 +24,20 @@ export default function Hero() {
         alignItems: 'flex-start',
       }}
     >
-      {/* Subtle darkening at the very bottom so the section fades
-          into the rest of the page without a hard edge */}
+      {/* Dark gradient layers: left-side vignette behind text + bottom fade into page */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(to bottom, transparent 60%, #00060E 100%)',
+          background: 'linear-gradient(to bottom, rgba(0,6,14,0.45) 0%, rgba(0,6,14,0.15) 50%, #00060E 100%)',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to right, rgba(0,6,14,0.72) 0%, rgba(0,6,14,0.45) 40%, transparent 75%)',
           pointerEvents: 'none',
         }}
       />
@@ -57,7 +64,7 @@ export default function Hero() {
               fontSize: 'clamp(3.4rem, 7.5vw, 6.2rem)',
               fontWeight: 400,
               transitionDelay: '180ms',
-              textShadow: '0 2px 40px rgba(0,6,14,0.6)',
+              textShadow: '0 2px 24px rgba(0,6,14,0.9), 0 1px 4px rgba(0,6,14,0.8)',
             }}
           >
             Your books,
@@ -70,7 +77,7 @@ export default function Hero() {
           <p
             className={`text-white/75 leading-relaxed mb-10 max-w-md
               transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
-            style={{ fontSize: '1.05rem', transitionDelay: '300ms', textShadow: '0 1px 16px rgba(0,6,14,0.7)' }}
+            style={{ fontSize: '1.05rem', transitionDelay: '300ms', textShadow: '0 1px 12px rgba(0,6,14,0.95), 0 2px 24px rgba(0,6,14,0.7)' }}
           >
             Flat-rate monthly bookkeeping for US small businesses.
             Accurate records, clean reports, and no surprises at tax time.
