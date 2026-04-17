@@ -160,7 +160,7 @@ export default function DashboardClient({ userId, businessName, contactName, ava
   const noData = !loading && !kpi && Object.keys(chartUrls).length === 0
 
   return (
-    <div className="min-h-screen bg-navy-950 text-silver">
+    <div className="min-h-screen bg-navy-900 text-silver">
       {/* Subtle grid */}
       <div
         className="fixed inset-0 opacity-[0.02] pointer-events-none"
@@ -171,7 +171,7 @@ export default function DashboardClient({ userId, businessName, contactName, ava
       />
 
       {/* ── Nav ── */}
-      <header className="sticky top-0 z-50 bg-navy-900/95 backdrop-blur-sm border-b border-white/5">
+      <header className="sticky top-0 z-50 bg-navy-800/95 backdrop-blur-sm border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Logo className="h-7 w-auto" />
@@ -216,7 +216,7 @@ export default function DashboardClient({ userId, businessName, contactName, ava
               <select
                 value={month}
                 onChange={e => setMonth(e.target.value)}
-                className="bg-navy-800 border border-white/10 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-teal-600 transition-colors"
+                className="bg-navy-700/60 border border-white/10 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-teal-600 transition-colors"
               >
                 {availableMonths.map(m => (
                   <option key={m} value={m}>{formatMonth(m)}</option>
@@ -265,7 +265,7 @@ export default function DashboardClient({ userId, businessName, contactName, ava
               { label: 'Net Income',    value: kpi.net_income,    change: kpi.net_income_change, positive: true  },
               { label: 'Cash Position', value: kpi.cash_position, change: kpi.cash_change,       positive: true  },
             ].map(({ label, value, change, positive }) => (
-              <div key={label} className="bg-navy-900 border border-white/5 rounded-xl p-5">
+              <div key={label} className="bg-navy-700/60 border border-white/5 rounded-xl p-5">
                 <p className="text-silver/40 text-xs font-medium tracking-wide uppercase mb-2">{label}</p>
                 <p className={`font-display font-bold text-2xl mb-1 ${value >= 0 ? 'text-white' : 'text-red-400'}`}>
                   {fmt(value)}
@@ -297,7 +297,7 @@ export default function DashboardClient({ userId, businessName, contactName, ava
                 {sectionCharts.map(({ key, label, wide }) => (
                   <div
                     key={key}
-                    className={`bg-navy-900 border border-white/5 rounded-xl overflow-hidden ${wide ? 'md:col-span-2' : ''}`}
+                    className={`bg-navy-700/60 border border-white/5 rounded-xl overflow-hidden ${wide ? 'md:col-span-2' : ''}`}
                   >
                     <div className="px-5 py-3.5 border-b border-white/5">
                       <p className="text-silver/60 text-xs font-medium tracking-wide uppercase">{label}</p>
@@ -321,7 +321,7 @@ export default function DashboardClient({ userId, businessName, contactName, ava
         {/* ── Change Password Panel ── */}
         {showPwForm && (
           <div className="mb-10 max-w-sm">
-            <div className="bg-navy-900 border border-white/5 rounded-xl p-6">
+            <div className="bg-navy-700/60 border border-white/5 rounded-xl p-6">
               <h3 className="text-white font-semibold text-sm mb-4">Change Password</h3>
               <div className="flex flex-col gap-3">
                 <div>
@@ -331,7 +331,7 @@ export default function DashboardClient({ userId, businessName, contactName, ava
                     value={newPw}
                     onChange={e => setNewPw(e.target.value)}
                     placeholder="Min. 8 characters"
-                    className="w-full bg-navy-800 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-silver/20 focus:outline-none focus:border-teal-600 transition-colors"
+                    className="w-full bg-navy-700/60 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-silver/20 focus:outline-none focus:border-teal-600 transition-colors"
                   />
                 </div>
                 <div>
@@ -341,7 +341,7 @@ export default function DashboardClient({ userId, businessName, contactName, ava
                     value={confirmPw}
                     onChange={e => setConfirmPw(e.target.value)}
                     placeholder="Re-enter password"
-                    className="w-full bg-navy-800 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-silver/20 focus:outline-none focus:border-teal-600 transition-colors"
+                    className="w-full bg-navy-700/60 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-silver/20 focus:outline-none focus:border-teal-600 transition-colors"
                   />
                 </div>
                 {pwError   && <p className="text-red-400 text-xs">{pwError}</p>}

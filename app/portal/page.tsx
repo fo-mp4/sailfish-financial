@@ -31,7 +31,7 @@ export default function PortalLogin() {
   }
 
   return (
-    <div className="min-h-screen bg-navy-950 flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen bg-navy-900 flex flex-col items-center justify-center px-4">
       {/* Subtle grid */}
       <div
         className="fixed inset-0 opacity-[0.025] pointer-events-none"
