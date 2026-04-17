@@ -69,8 +69,12 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" style={{ backgroundColor: '#071830', marginTop: '-120px', position: 'relative', zIndex: 20 }} className="pt-32 pb-28">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="services" style={{ backgroundColor: '#071830', marginTop: '-120px', position: 'relative', zIndex: 20 }} className="pt-32 pb-28 overflow-hidden">
+
+      {/* Background glow */}
+      <div style={{ position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)', width: '80vw', height: '60vh', background: 'radial-gradient(ellipse, rgba(14,143,172,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+      <div className="max-w-6xl mx-auto px-6 relative">
 
         <div className="mb-16 max-w-2xl">
           <p className="text-teal-400 text-xs font-medium tracking-[0.2em] uppercase mb-4">What&apos;s included</p>
@@ -78,28 +82,32 @@ export default function Services() {
             Everything you need.<br />
             <em style={{ color: '#14A8C8', fontStyle: 'italic', fontWeight: 300 }}>Nothing you don&apos;t.</em>
           </h2>
-          <p className="text-white/45 text-lg leading-relaxed">
+          <p className="text-white/65 text-lg leading-relaxed">
             One flat monthly rate covers all of this. No hourly billing, no add-on fees, no surprises.
             Just clean books and clear numbers — delivered on time, every month.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5 rounded-xl overflow-hidden">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {services.map((s) => (
-            <div key={s.title} className="p-8 hover:bg-white/[0.03] transition-colors group" style={{ backgroundColor: '#071830' }}>
-              <div className="text-teal-500 mb-5 group-hover:text-teal-400 transition-colors">
+            <div
+              key={s.title}
+              className="group p-8 rounded-xl border border-white/8 hover:border-teal-500/40 transition-all duration-300"
+              style={{ backgroundColor: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(4px)' }}
+            >
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-5 text-teal-400 group-hover:text-teal-300 transition-colors" style={{ backgroundColor: 'rgba(14,143,172,0.12)' }}>
                 {s.icon}
               </div>
               <h3 className="font-display font-semibold text-white text-base mb-3">{s.title}</h3>
-              <p className="text-white/40 text-sm leading-relaxed">{s.description}</p>
+              <p className="text-white/60 text-sm leading-relaxed">{s.description}</p>
             </div>
           ))}
         </div>
 
         <div className="mt-10 text-center">
-          <p className="text-white/30 text-sm">
+          <p className="text-white/40 text-sm">
             Not sure what you need?{' '}
-            <a href="/contact" className="text-teal-400/70 hover:text-teal-400 transition-colors underline underline-offset-4">
+            <a href="/contact" className="text-teal-400 hover:text-teal-300 transition-colors underline underline-offset-4">
               Let&apos;s talk — free 30-minute call, no commitment.
             </a>
           </p>
