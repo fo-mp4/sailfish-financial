@@ -12,7 +12,7 @@ export default function ContactPage() {
   return (
     <>
       <Nav />
-      <main style={{ backgroundColor: '#00060E' }} className="min-h-screen pt-16">
+      <main style={{ backgroundColor: '#071830' }} className="min-h-screen pt-16">
         <section className="max-w-3xl mx-auto px-6 py-24">
 
           <p className="text-teal-400 text-xs font-medium tracking-[0.2em] uppercase mb-6">Say hello</p>

@@ -69,7 +69,7 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" style={{ backgroundColor: '#00060E' }} className="py-28 border-t border-white/5">
+    <section id="services" style={{ backgroundColor: '#071830' }} className="py-28 border-t border-white/5">
       <div className="max-w-6xl mx-auto px-6">
 
         <div className="mb-16 max-w-2xl">
@@ -86,7 +86,7 @@ export default function Services() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5 rounded-xl overflow-hidden">
           {services.map((s) => (
-            <div key={s.title} className="p-8 hover:bg-white/[0.03] transition-colors group" style={{ backgroundColor: '#00060E' }}>
+            <div key={s.title} className="p-8 hover:bg-white/[0.03] transition-colors group" style={{ backgroundColor: '#071830' }}>
               <div className="text-teal-500 mb-5 group-hover:text-teal-400 transition-colors">
                 {s.icon}
               </div>

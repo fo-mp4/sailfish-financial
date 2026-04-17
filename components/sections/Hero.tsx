@@ -13,9 +13,9 @@ export default function Hero() {
       style={{
         minHeight: '100vh',
         position: 'relative',
-        // Image covers the top of the section; #00060E fills the rest —
+        // Image covers the top of the section; #071830 fills the rest —
         // matches the image's bottom colour exactly so there's no visible seam.
-        backgroundColor: '#00060E',
+        backgroundColor: '#071830',
         backgroundImage: 'url("/ocean-hero-1.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center top',
@@ -29,7 +29,7 @@ export default function Hero() {
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(to bottom, rgba(0,6,14,0.45) 0%, rgba(0,6,14,0.15) 50%, #00060E 100%)',
+          background: 'linear-gradient(to bottom, rgba(7,24,48,0.45) 0%, rgba(7,24,48,0.15) 50%, #071830 100%)',
           pointerEvents: 'none',
         }}
       />
@@ -37,7 +37,7 @@ export default function Hero() {
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(to right, rgba(0,6,14,0.72) 0%, rgba(0,6,14,0.45) 40%, transparent 75%)',
+          background: 'linear-gradient(to right, rgba(7,24,48,0.72) 0%, rgba(7,24,48,0.45) 40%, transparent 75%)',
           pointerEvents: 'none',
         }}
       />
@@ -64,7 +64,7 @@ export default function Hero() {
               fontSize: 'clamp(3.4rem, 7.5vw, 6.2rem)',
               fontWeight: 400,
               transitionDelay: '180ms',
-              textShadow: '0 2px 24px rgba(0,6,14,0.9), 0 1px 4px rgba(0,6,14,0.8)',
+              textShadow: '0 2px 24px rgba(7,24,48,0.9), 0 1px 4px rgba(7,24,48,0.8)',
             }}
           >
             Your books,
@@ -77,7 +77,7 @@ export default function Hero() {
           <p
             className={`text-white/75 leading-relaxed mb-10 max-w-md
               transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
-            style={{ fontSize: '1.05rem', transitionDelay: '300ms', textShadow: '0 1px 12px rgba(0,6,14,0.95), 0 2px 24px rgba(0,6,14,0.7)' }}
+            style={{ fontSize: '1.05rem', transitionDelay: '300ms', textShadow: '0 1px 12px rgba(7,24,48,0.95), 0 2px 24px rgba(7,24,48,0.7)' }}
           >
             Flat-rate monthly bookkeeping for US small businesses.
             Accurate records, clean reports, and no surprises at tax time.

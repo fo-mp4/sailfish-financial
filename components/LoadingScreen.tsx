@@ -25,7 +25,7 @@ export default function LoadingScreen() {
         position: 'fixed',
         inset: 0,
         zIndex: 200,
-        backgroundColor: '#00060E',
+        backgroundColor: '#071830',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

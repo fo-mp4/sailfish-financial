@@ -6,7 +6,7 @@ export const metadata = {
 
 export default function GetStartedPage() {
   return (
-    <main className="min-h-screen pt-28 pb-20 px-6" style={{ backgroundColor: '#00060E' }}>
+    <main className="min-h-screen pt-28 pb-20 px-6" style={{ backgroundColor: '#071830' }}>
       <div className="max-w-2xl mx-auto">
         <div className="mb-10">
           <h1 className="font-serif text-4xl md:text-5xl text-white mb-4">

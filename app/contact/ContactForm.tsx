@@ -46,7 +46,7 @@ export default function ContactForm() {
               required
               placeholder="Jane Smith"
               className="w-full border border-white/8 focus:border-teal-600/50 rounded-lg px-4 py-3 text-white text-sm placeholder:text-white/15 outline-none transition-colors"
-              style={{ backgroundColor: '#00060E' }}
+              style={{ backgroundColor: '#071830' }}
             />
           </div>
           <div>
@@ -57,7 +57,7 @@ export default function ContactForm() {
               required
               placeholder="you@yourcompany.com"
               className="w-full border border-white/8 focus:border-teal-600/50 rounded-lg px-4 py-3 text-white text-sm placeholder:text-white/15 outline-none transition-colors"
-              style={{ backgroundColor: '#00060E' }}
+              style={{ backgroundColor: '#071830' }}
             />
           </div>
         </div>
@@ -71,7 +71,7 @@ export default function ContactForm() {
             type="text"
             placeholder="e.g. sole proprietor, LLC, S-corp"
             className="w-full border border-white/8 focus:border-teal-600/50 rounded-lg px-4 py-3 text-white text-sm placeholder:text-white/15 outline-none transition-colors"
-            style={{ backgroundColor: '#00060E' }}
+            style={{ backgroundColor: '#071830' }}
           />
         </div>
 
@@ -83,7 +83,7 @@ export default function ContactForm() {
             required
             placeholder="Tell me a bit about your business. Monthly bookkeeping, a QuickBooks cleanup, tax estimates — whatever's on your mind."
             className="w-full border border-white/8 focus:border-teal-600/50 rounded-lg px-4 py-3 text-white text-sm placeholder:text-white/15 outline-none transition-colors resize-none"
-            style={{ backgroundColor: '#00060E' }}
+            style={{ backgroundColor: '#071830' }}
           />
         </div>
 

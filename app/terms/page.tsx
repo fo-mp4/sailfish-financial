@@ -6,7 +6,7 @@ export const metadata = {
 
 export default function TermsOfService() {
   return (
-    <main className="min-h-screen pt-28 pb-20 px-6" style={{ backgroundColor: '#00060E' }}>
+    <main className="min-h-screen pt-28 pb-20 px-6" style={{ backgroundColor: '#071830' }}>
       <div className="max-w-3xl mx-auto">
         <Link href="/" className="text-xs text-teal-400 hover:text-teal-300 transition-colors mb-8 inline-block">
           ← Back to Home

@@ -56,7 +56,7 @@ export default function OceanCanvas({ scrollY = 0 }: { scrollY?: number }) {
       bg.addColorStop(0,    '#011020')
       bg.addColorStop(0.35, '#010C18')
       bg.addColorStop(0.75, '#000A12')
-      bg.addColorStop(1,    '#00060E')
+      bg.addColorStop(1,    '#071830')
       ctx.fillStyle = bg
       ctx.fillRect(0, 0, W, H)
 
