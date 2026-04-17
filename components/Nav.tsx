@@ -8,7 +8,7 @@ export default function Nav() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-navy-900/95 backdrop-blur-sm border-b border-white/5">
+    <header className="fixed top-0 inset-x-0 z-50" style={{ background: 'linear-gradient(to bottom, rgba(7,24,48,0.55) 0%, transparent 100%)' }}>
       <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-3 group">
@@ -50,7 +50,7 @@ export default function Nav() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-navy-900 border-t border-white/5 px-6 pb-4 flex flex-col gap-4">
+        <div className="md:hidden px-6 pb-4 flex flex-col gap-4" style={{ backgroundColor: 'rgba(7,24,48,0.95)', backdropFilter: 'blur(8px)' }}>
           <Link href="/#services"    className="text-sm text-silver/70 hover:text-white py-2" onClick={() => setOpen(false)}>Services</Link>
           <Link href="/#why-us"      className="text-sm text-silver/70 hover:text-white py-2" onClick={() => setOpen(false)}>Why Us</Link>
           <Link href="/contact"      className="text-sm text-silver/70 hover:text-white py-2" onClick={() => setOpen(false)}>Contact</Link>
