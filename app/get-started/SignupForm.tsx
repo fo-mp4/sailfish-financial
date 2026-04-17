@@ -80,14 +80,23 @@ export default function SignupForm() {
 
       <div>
         <label className={labelClass}>Services You're Interested In</label>
-        <select name="services" className={inputClass + " appearance-none"}>
-          <option value="">Select one</option>
-          <option value="Monthly bookkeeping">Monthly bookkeeping</option>
-          <option value="Monthly bookkeeping + P&L reporting">Monthly bookkeeping + P&L reporting</option>
-          <option value="Catch-up bookkeeping">Catch-up bookkeeping (past months)</option>
-          <option value="Full-service (bookkeeping, invoicing, AR)">Full-service (bookkeeping, invoicing, AR)</option>
-          <option value="Not sure yet">Not sure yet — I'd like to talk it through</option>
-        </select>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
+          {[
+            'Monthly bookkeeping',
+            'Monthly bookkeeping + P&L reporting',
+            'Catch-up bookkeeping (past months)',
+            'Invoicing & collections',
+            'QuickBooks setup & cleanup',
+            'Year-end tax prep',
+            'Full-service (bookkeeping, invoicing, AR)',
+            'Not sure yet — I'd like to talk it through',
+          ].map((service) => (
+            <label key={service} className="flex items-center gap-3 px-4 py-3 rounded border border-white/10 hover:border-teal-500/40 cursor-pointer transition-colors" style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}>
+              <input type="checkbox" name="services" value={service} className="accent-teal-500 w-4 h-4 flex-shrink-0" />
+              <span className="text-sm text-white/70">{service}</span>
+            </label>
+          ))}
+        </div>
       </div>
 
       <div>

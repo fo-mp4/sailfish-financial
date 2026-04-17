@@ -14,7 +14,7 @@ export async function sendSignupEmail(
   const business     = (formData.get('business')     as string | null)?.trim() ?? ''
   const industry     = (formData.get('industry')     as string | null)?.trim() ?? ''
   const revenue      = (formData.get('revenue')      as string | null)?.trim() ?? ''
-  const services     = (formData.get('services')     as string | null)?.trim() ?? ''
+  const services     = formData.getAll('services').join(', ')
   const quickbooks   = (formData.get('quickbooks')   as string | null)?.trim() ?? ''
   const notes        = (formData.get('notes')        as string | null)?.trim() ?? ''
 
