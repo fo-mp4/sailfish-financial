@@ -12,7 +12,7 @@ export default function Nav() {
       <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-3 group">
-          <Logo className="h-8 w-auto" />
+          <Logo className="h-11 w-auto" />
           <span className="flex flex-col leading-none">
             <span style={{ fontFamily: 'var(--font-cormorant)', fontStyle: 'italic', fontWeight: 300, fontSize: '1.05rem', color: 'white', letterSpacing: '0.04em' }}>Sailfish</span>
             <span style={{ fontFamily: 'var(--font-bodoni)', fontWeight: 900, fontSize: '1.15rem', color: '#14A8C8', letterSpacing: '0.18em', textTransform: 'uppercase' }}>Financial</span>

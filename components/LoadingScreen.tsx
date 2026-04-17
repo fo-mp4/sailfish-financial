@@ -31,6 +31,7 @@ export default function LoadingScreen() {
         alignItems: 'center',
         justifyContent: 'center',
         gap: '1.25rem',
+        boxShadow: 'inset 0 0 0 10px #030D1E',
         opacity: phase === 'fading' ? 0 : 1,
         transition: 'opacity 0.5s ease',
       }}
@@ -40,8 +41,8 @@ export default function LoadingScreen() {
         src="/sailfish-logo.png"
         alt=""
         style={{
-          width: 64,
-          height: 64,
+          width: 88,
+          height: 88,
           objectFit: 'contain',
           animation: 'spin 1s linear infinite',
         }}
