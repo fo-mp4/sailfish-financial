@@ -8,8 +8,8 @@ export default function Nav() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50" style={{ background: 'linear-gradient(to bottom, rgba(7,24,48,0.55) 0%, transparent 100%)' }}>
-      <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <header className="absolute top-0 inset-x-0 z-50" style={{ background: 'linear-gradient(to bottom, rgba(7,24,48,0.55) 0%, transparent 100%)' }}>
+      <nav className="w-full px-8 h-16 flex items-center justify-between">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-3 group">
           <Logo className="h-11 w-auto" />
