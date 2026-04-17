@@ -32,9 +32,15 @@ export default function Footer() {
           <p className="text-silver/25 text-xs">
             © {new Date().getFullYear()} Sailfish Financial · 650 W Gaines St, Tallahassee, FL
           </p>
-          <p className="text-silver/20 text-xs max-w-sm text-right">
-            Bookkeeping services only. Not a licensed CPA firm. Tax estimates are for planning purposes and do not constitute tax advice.
-          </p>
+          <div className="flex flex-col sm:items-end gap-2">
+            <div className="flex gap-4">
+              <Link href="/privacy" className="text-xs text-silver/30 hover:text-silver/60 transition-colors">Privacy Policy</Link>
+              <Link href="/terms"   className="text-xs text-silver/30 hover:text-silver/60 transition-colors">Terms of Service</Link>
+            </div>
+            <p className="text-silver/20 text-xs max-w-sm sm:text-right">
+              Bookkeeping services only. Not a licensed CPA firm. Tax estimates are for planning purposes and do not constitute tax advice.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
