@@ -50,12 +50,12 @@ export default function LoadingScreen() {
       {/* Brand name */}
       <p
         style={{
-          fontFamily: 'var(--font-cormorant)',
+          fontFamily: 'var(--font-bodoni)',
           fontSize: '1rem',
           letterSpacing: '0.25em',
           color: 'rgba(255,255,255,0.75)',
           textTransform: 'uppercase',
-          fontWeight: 300,
+          fontWeight: 400,
         }}
       >
         Sailfish <span style={{ color: '#14A8C8' }}>Financial</span>

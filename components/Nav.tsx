@@ -13,9 +13,8 @@ export default function Nav() {
         {/* Brand */}
         <Link href="/" className="flex items-center gap-3 group">
           <Logo className="h-8 w-auto" />
-          <span className="font-display font-bold text-white text-lg tracking-wide">
-            Sailfish
-            <span className="font-light text-teal-400 ml-1.5">Financial</span>
+          <span className="font-bodoni text-white text-xl tracking-widest uppercase">
+            Sailfish <span className="text-teal-400">Financial</span>
           </span>
         </Link>
 

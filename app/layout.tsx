@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Outfit, Cormorant_Garamond } from 'next/font/google'
+import { Inter, Outfit, Cormorant_Garamond, Bodoni_Moda } from 'next/font/google'
 import './globals.css'
 
 const inter = Inter({
@@ -22,6 +22,14 @@ const cormorant = Cormorant_Garamond({
   display: 'swap',
 })
 
+const bodoni = Bodoni_Moda({
+  subsets: ['latin'],
+  variable: '--font-bodoni',
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
   title: 'Sailfish Financial — Monthly Bookkeeping for Small Businesses',
   description:
@@ -38,7 +46,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable} ${cormorant.variable}`}>
+    <html lang="en" className={`${inter.variable} ${outfit.variable} ${cormorant.variable} ${bodoni.variable}`}>
       <body>{children}</body>
     </html>
   )
