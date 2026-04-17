@@ -171,15 +171,16 @@ export default function DashboardClient({ userId, businessName, contactName, ava
       />
 
       {/* ── Nav ── */}
-      <header className="sticky top-0 z-50 bg-navy-800/95 backdrop-blur-sm border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <header className="absolute top-0 inset-x-0 z-50" style={{ background: 'linear-gradient(to bottom, rgba(7,24,48,0.6) 0%, transparent 100%)' }}>
+        <div className="w-full px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Logo className="h-7 w-auto" />
-            <span className="font-display font-bold text-white tracking-wide">
-              Sailfish <span className="font-light text-teal-400">Financial</span>
+            <Logo className="h-11 w-auto" />
+            <span className="flex flex-col leading-none">
+              <span style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 400, fontSize: '0.95rem', color: 'white', letterSpacing: '0.2em' }}>Sailfish</span>
+              <span style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 700, fontSize: '1.05rem', color: '#14A8C8', letterSpacing: '0.25em' }}>Financial</span>
             </span>
-            <span className="hidden sm:block text-white/15 mx-1">·</span>
-            <span className="hidden sm:block text-silver/40 text-sm">Client Portal</span>
+            <span className="hidden sm:block text-white/15 mx-2">·</span>
+            <span className="hidden sm:block text-silver/50 text-sm">Client Portal</span>
           </div>
 
           <div className="flex items-center gap-5">
@@ -201,7 +202,7 @@ export default function DashboardClient({ userId, businessName, contactName, ava
         </div>
       </header>
 
-      <main className="relative max-w-7xl mx-auto px-6 py-10">
+      <main className="relative max-w-7xl mx-auto px-6 pt-24 pb-10">
         {/* ── Page header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
