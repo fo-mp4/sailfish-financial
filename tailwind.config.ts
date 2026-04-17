@@ -27,8 +27,9 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
         display: ['var(--font-outfit)', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-cormorant)', 'Georgia', 'serif'],
+        serif: ['var(--font-playfair)', 'Georgia', 'serif'],
         bodoni: ['var(--font-bodoni)', 'Georgia', 'serif'],
+        cinzel: ['var(--font-cinzel)', 'Georgia', 'serif'],
       },
     },
   },

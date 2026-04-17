@@ -10,25 +10,26 @@ export default function Hero() {
 
   return (
     <section style={{ position: 'relative', backgroundColor: '#071830' }}>
-      {/* Full image — no cropping, section height follows the image */}
+      {/* Full image — no cropping */}
       <img
         src="/ocean-hero-1.jpg"
         alt=""
         style={{ width: '100%', height: 'auto', display: 'block' }}
       />
 
-      {/* Text overlay — absolute positioned over the image */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          alignItems: 'flex-start',
-          zIndex: 10,
-        }}
-      >
+      {/* Gradient at bottom so Services section blends in */}
+      <div style={{
+        position: 'absolute',
+        bottom: 0, left: 0, right: 0,
+        height: '35%',
+        background: 'linear-gradient(to bottom, transparent, #071830)',
+        pointerEvents: 'none',
+      }} />
+
+      {/* Text overlay */}
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'flex-start', zIndex: 10 }}>
         <div className="w-full max-w-6xl mx-auto px-6 pt-36 pb-40">
-          <div className="max-w-xl">
+          <div className="max-w-2xl">
 
             <p
               className={`text-teal-400 text-xs font-medium uppercase tracking-[0.22em] mb-7
@@ -39,26 +40,27 @@ export default function Hero() {
             </p>
 
             <h1
-              className={`font-serif text-white leading-[1.02] mb-8
+              className={`text-white leading-[1.05] mb-8
                 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
               style={{
-                fontSize: 'clamp(3.4rem, 7.5vw, 6.2rem)',
-                fontWeight: 400,
+                fontFamily: 'var(--font-playfair)',
+                fontSize: 'clamp(3rem, 6.5vw, 5.5rem)',
+                fontWeight: 700,
                 transitionDelay: '180ms',
-                textShadow: '0 2px 24px rgba(7,24,48,0.9), 0 1px 4px rgba(7,24,48,0.8)',
+                textShadow: '0 2px 32px rgba(7,24,48,0.85)',
               }}
             >
               Your books,
               <br />
-              <em style={{ color: '#14A8C8', fontStyle: 'italic', fontWeight: 300 }}>
+              <em style={{ color: '#14A8C8', fontStyle: 'italic', fontWeight: 400 }}>
                 handled.
               </em>
             </h1>
 
             <p
-              className={`text-white/90 leading-relaxed mb-10 max-w-md
+              className={`text-white/85 leading-relaxed mb-10 max-w-md
                 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
-              style={{ fontSize: '1.05rem', transitionDelay: '300ms', textShadow: '0 1px 12px rgba(7,24,48,0.95), 0 2px 24px rgba(7,24,48,0.7)' }}
+              style={{ fontSize: '1.05rem', transitionDelay: '300ms', textShadow: '0 1px 16px rgba(7,24,48,0.9)' }}
             >
               Flat-rate monthly bookkeeping for US small businesses.
               Accurate records, clean reports, and no surprises at tax time.
@@ -70,10 +72,10 @@ export default function Hero() {
               style={{ transitionDelay: '420ms' }}
             >
               <Link
-                href="/contact"
+                href="/get-started"
                 className="inline-flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-500 text-white font-medium px-7 py-3.5 rounded transition-colors text-sm"
               >
-                Get a free consult
+                Get started
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
@@ -87,7 +89,7 @@ export default function Hero() {
             </div>
 
             <div
-              className={`mt-12 flex items-center gap-6 text-white/60 text-xs tracking-wide
+              className={`mt-12 flex items-center gap-6 text-white/70 text-xs tracking-wide
                 transition-all duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}
               style={{ transitionDelay: '560ms' }}
             >

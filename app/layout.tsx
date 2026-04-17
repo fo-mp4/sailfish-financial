@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Outfit, Cormorant_Garamond, Bodoni_Moda } from 'next/font/google'
+import { Inter, Outfit, Cormorant_Garamond, Bodoni_Moda, Cinzel, Playfair_Display } from 'next/font/google'
 import './globals.css'
 
 const inter = Inter({
@@ -30,6 +30,21 @@ const bodoni = Bodoni_Moda({
   display: 'swap',
 })
 
+const cinzel = Cinzel({
+  subsets: ['latin'],
+  variable: '--font-cinzel',
+  weight: ['400', '600', '700', '900'],
+  display: 'swap',
+})
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
   title: 'Sailfish Financial — Monthly Bookkeeping for Small Businesses',
   description:
@@ -46,7 +61,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable} ${cormorant.variable} ${bodoni.variable}`}>
+    <html lang="en" className={`${inter.variable} ${outfit.variable} ${cormorant.variable} ${bodoni.variable} ${cinzel.variable} ${playfair.variable}`}>
       <body>{children}</body>
     </html>
   )

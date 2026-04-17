@@ -69,7 +69,7 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" style={{ backgroundColor: '#071830' }} className="py-28 border-t border-white/5">
+    <section id="services" style={{ backgroundColor: '#071830', marginTop: '-120px', position: 'relative', zIndex: 20 }} className="pt-32 pb-28">
       <div className="max-w-6xl mx-auto px-6">
 
         <div className="mb-16 max-w-2xl">

@@ -50,10 +50,10 @@ export default function LoadingScreen() {
 
       {/* Brand name */}
       <div style={{ textAlign: 'center', lineHeight: 1.1 }}>
-        <div style={{ fontFamily: 'var(--font-cormorant)', fontStyle: 'italic', fontWeight: 300, fontSize: '1.6rem', color: 'white', letterSpacing: '0.04em' }}>
+        <div style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 400, fontSize: '1.5rem', color: 'white', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
           Sailfish
         </div>
-        <div style={{ fontFamily: 'var(--font-bodoni)', fontWeight: 900, fontSize: '1.55rem', color: '#14A8C8', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+        <div style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 700, fontSize: '1.5rem', color: '#14A8C8', letterSpacing: '0.28em', textTransform: 'uppercase' }}>
           Financial
         </div>
       </div>
