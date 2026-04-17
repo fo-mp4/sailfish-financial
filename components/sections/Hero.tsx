@@ -13,35 +13,15 @@ export default function Hero() {
       style={{
         minHeight: '100vh',
         position: 'relative',
-        // Image covers the top of the section; #071830 fills the rest —
-        // matches the image's bottom colour exactly so there's no visible seam.
         backgroundColor: '#071830',
         backgroundImage: 'url("/ocean-hero-1.jpg")',
         backgroundSize: 'cover',
-        backgroundPosition: 'center top',
+        backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',
         display: 'flex',
         alignItems: 'flex-start',
       }}
     >
-      {/* Dark gradient layers: left-side vignette behind text + bottom fade into page */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to bottom, rgba(7,24,48,0.45) 0%, rgba(7,24,48,0.15) 50%, #071830 100%)',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to right, rgba(7,24,48,0.72) 0%, rgba(7,24,48,0.45) 40%, transparent 75%)',
-          pointerEvents: 'none',
-        }}
-      />
-
       {/* Content */}
       <div
         className="relative w-full max-w-6xl mx-auto px-6 pt-36 pb-40"
@@ -75,7 +55,7 @@ export default function Hero() {
           </h1>
 
           <p
-            className={`text-white/75 leading-relaxed mb-10 max-w-md
+            className={`text-white/90 leading-relaxed mb-10 max-w-md
               transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
             style={{ fontSize: '1.05rem', transitionDelay: '300ms', textShadow: '0 1px 12px rgba(7,24,48,0.95), 0 2px 24px rgba(7,24,48,0.7)' }}
           >
@@ -98,22 +78,22 @@ export default function Hero() {
               </svg>
             </Link>
             <Link
-              href="#services"
-              className="inline-flex items-center justify-center text-white/65 hover:text-white font-medium px-7 py-3.5 rounded border border-white/20 hover:border-white/40 transition-colors text-sm"
+              href="/#services"
+              className="inline-flex items-center justify-center text-white hover:text-teal-300 font-medium px-7 py-3.5 rounded border border-white/40 hover:border-teal-400 transition-colors text-sm"
             >
               See what&apos;s included
             </Link>
           </div>
 
           <div
-            className={`mt-12 flex items-center gap-6 text-white/35 text-xs tracking-wide
+            className={`mt-12 flex items-center gap-6 text-white/60 text-xs tracking-wide
               transition-all duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}
             style={{ transitionDelay: '560ms' }}
           >
             <span>Flat monthly pricing</span>
-            <span className="text-white/15">·</span>
+            <span className="text-white/30">·</span>
             <span>Books by the 5th</span>
-            <span className="text-white/15">·</span>
+            <span className="text-white/30">·</span>
             <span>Cancel anytime</span>
           </div>
 
