@@ -36,7 +36,7 @@ export async function sendSignupEmail(
 
   await transporter.sendMail({
     from:    `"Sailfish Financial Website" <${user}>`,
-    to:      'FordFox@sailfishfinancial.com',
+    to:      toEmail,
     replyTo: email,
     subject: `New signup: ${business} (${name})`,
     html: `

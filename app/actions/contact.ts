@@ -17,8 +17,9 @@ export async function sendContactEmail(
     return { ok: false, error: 'Please fill in your name, email, and message.' }
   }
 
-  const user = process.env.GMAIL_USER
-  const pass = process.env.GMAIL_APP_PASSWORD
+  const user    = process.env.GMAIL_USER
+  const pass    = process.env.GMAIL_APP_PASSWORD
+  const toEmail = process.env.CONTACT_RECIPIENT ?? process.env.GMAIL_USER
 
   if (!user || !pass) {
     console.error('GMAIL_USER or GMAIL_APP_PASSWORD not set in .env.local')
@@ -32,7 +33,7 @@ export async function sendContactEmail(
 
   await transporter.sendMail({
     from:    `"Sailfish Financial Website" <${user}>`,
-    to:      'FordFox@sailfishfinancial.com',
+    to:      toEmail,
     replyTo: email,
     subject: `New inquiry from ${name}`,
     html: `
