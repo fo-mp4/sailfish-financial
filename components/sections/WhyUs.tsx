@@ -12,7 +12,7 @@ const pillars = [
   {
     number: '03',
     title: 'You talk to me directly',
-    body: "No account managers, no ticketing systems, no being passed around. You have my number. Questions get answered the same day.",
+    body: "No account managers, no ticketing systems, no being passed around. You have our direct line. Questions get answered the same day.",
   },
   {
     number: '04',
@@ -40,7 +40,7 @@ export default function WhyUs() {
             </h2>
             <p className="text-white/65 text-lg leading-relaxed mb-6">
               Most bookkeeping services are built for big companies — slow, expensive, and full of people
-              you&apos;ve never met. Sailfish is just me, focused entirely on small businesses in the US.
+              you&apos;ve never met. Sailfish is focused entirely on small businesses in the US.
             </p>
             <p className="text-white/65 text-lg leading-relaxed mb-8">
               You get fast turnaround, honest pricing, and a real person who picks up the phone.

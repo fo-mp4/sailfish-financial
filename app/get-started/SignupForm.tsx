@@ -31,7 +31,7 @@ export default function SignupForm() {
           </svg>
         </div>
         <h3 className="text-white font-semibold text-lg mb-2">You're all set</h3>
-        <p className="text-silver/50 text-sm">Ford will be in touch within one business day.</p>
+        <p className="text-silver/50 text-sm">Our team will be in touch within one business day.</p>
       </div>
     )
   }

@@ -13,7 +13,7 @@ export default function GetStartedPage() {
             Let's get your books <span className="italic text-teal-400">handled.</span>
           </h1>
           <p className="text-silver/60 text-base leading-relaxed">
-            Fill out the form below and Ford will follow up within one business day to discuss your needs and get you set up.
+            Fill out the form below and our team will follow up within one business day to discuss your needs and get you set up.
           </p>
         </div>
 
@@ -22,7 +22,7 @@ export default function GetStartedPage() {
         </div>
 
         <p className="text-silver/25 text-xs text-center mt-6">
-          Prefer to talk first? Call or text (770) 580-9850 or email FordFox@sailfishfinancial.com
+          Prefer to talk first? Call or text (770) 580-9850 or email us at hello@sailfishfinancial.com
         </p>
       </div>
     </main>
