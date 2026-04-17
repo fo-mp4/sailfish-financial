@@ -15,6 +15,7 @@ export async function sendSignupEmail(
   const industry     = (formData.get('industry')     as string | null)?.trim() ?? ''
   const revenue      = (formData.get('revenue')      as string | null)?.trim() ?? ''
   const services     = (formData.get('services')     as string | null)?.trim() ?? ''
+  const quickbooks   = (formData.get('quickbooks')   as string | null)?.trim() ?? ''
   const notes        = (formData.get('notes')        as string | null)?.trim() ?? ''
 
   if (!name || !email || !business) {
@@ -48,7 +49,8 @@ export async function sendSignupEmail(
           <tr><td style="padding:8px 0;color:#666">Business</td><td style="padding:8px 0;font-weight:600">${business}</td></tr>
           ${industry ? `<tr><td style="padding:8px 0;color:#666">Industry</td><td style="padding:8px 0">${industry}</td></tr>` : ''}
           ${revenue  ? `<tr><td style="padding:8px 0;color:#666">Monthly revenue</td><td style="padding:8px 0">${revenue}</td></tr>` : ''}
-          ${services ? `<tr><td style="padding:8px 0;color:#666">Services needed</td><td style="padding:8px 0">${services}</td></tr>` : ''}
+          ${services    ? `<tr><td style="padding:8px 0;color:#666">Services needed</td><td style="padding:8px 0">${services}</td></tr>` : ''}
+          ${quickbooks  ? `<tr><td style="padding:8px 0;color:#666">QuickBooks</td><td style="padding:8px 0">${quickbooks}</td></tr>` : ''}
         </table>
         ${notes ? `
         <hr style="border:none;border-top:1px solid #eee;margin:24px 0" />

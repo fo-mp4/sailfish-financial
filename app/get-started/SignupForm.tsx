@@ -91,6 +91,17 @@ export default function SignupForm() {
       </div>
 
       <div>
+        <label className={labelClass}>Do you currently use QuickBooks?</label>
+        <select name="quickbooks" className={inputClass + " appearance-none"}>
+          <option value="">Select one</option>
+          <option value="Yes, currently using QuickBooks">Yes, I currently use QuickBooks</option>
+          <option value="Used QuickBooks before but not currently">I've used it before but not currently</option>
+          <option value="No, not using QuickBooks">No, I don't use QuickBooks</option>
+          <option value="Not sure">Not sure</option>
+        </select>
+      </div>
+
+      <div>
         <label className={labelClass}>Anything else we should know? (optional)</label>
         <textarea name="notes" rows={3} placeholder="Current software, pain points, specific questions…" className={inputClass + " resize-none"} />
       </div>
