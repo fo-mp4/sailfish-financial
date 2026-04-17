@@ -48,18 +48,14 @@ export default function LoadingScreen() {
       />
 
       {/* Brand name */}
-      <p
-        style={{
-          fontFamily: 'var(--font-bodoni)',
-          fontSize: '1rem',
-          letterSpacing: '0.25em',
-          color: 'rgba(255,255,255,0.75)',
-          textTransform: 'uppercase',
-          fontWeight: 400,
-        }}
-      >
-        Sailfish <span style={{ color: '#14A8C8' }}>Financial</span>
-      </p>
+      <div style={{ textAlign: 'center', lineHeight: 1.1 }}>
+        <div style={{ fontFamily: 'var(--font-cormorant)', fontStyle: 'italic', fontWeight: 300, fontSize: '1.6rem', color: 'white', letterSpacing: '0.04em' }}>
+          Sailfish
+        </div>
+        <div style={{ fontFamily: 'var(--font-bodoni)', fontWeight: 900, fontSize: '1.55rem', color: '#14A8C8', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+          Financial
+        </div>
+      </div>
 
       <style>{`
         @keyframes spin {

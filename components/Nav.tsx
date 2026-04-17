@@ -13,8 +13,9 @@ export default function Nav() {
         {/* Brand */}
         <Link href="/" className="flex items-center gap-3 group">
           <Logo className="h-8 w-auto" />
-          <span className="font-bodoni text-white text-xl tracking-widest uppercase">
-            Sailfish <span className="text-teal-400">Financial</span>
+          <span className="flex flex-col leading-none">
+            <span style={{ fontFamily: 'var(--font-cormorant)', fontStyle: 'italic', fontWeight: 300, fontSize: '1.05rem', color: 'white', letterSpacing: '0.04em' }}>Sailfish</span>
+            <span style={{ fontFamily: 'var(--font-bodoni)', fontWeight: 900, fontSize: '1.15rem', color: '#14A8C8', letterSpacing: '0.18em', textTransform: 'uppercase' }}>Financial</span>
           </span>
         </Link>
 

@@ -25,7 +25,7 @@ const cormorant = Cormorant_Garamond({
 const bodoni = Bodoni_Moda({
   subsets: ['latin'],
   variable: '--font-bodoni',
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700', '800', '900'],
   style: ['normal', 'italic'],
   display: 'swap',
 })
