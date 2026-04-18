@@ -12,45 +12,40 @@ interface KPI {
   expenses:          number
   net_income:        number
   cash_position:     number
-  revenue_change:    number   // % vs prior month
+  revenue_change:    number
   expenses_change:   number
   net_income_change: number
   cash_change:       number
 }
 
 interface ChartMeta {
-  key:     string   // e.g. "01_revenue_trend"
+  key:     string
   label:   string
   section: string
-  wide:    boolean  // span 2 columns?
+  wide:    boolean
 }
 
-// Chart display order and grouping
 const CHART_CATALOG: ChartMeta[] = [
-  // Revenue & Income
   { key: '01_revenue_trend',    label: 'Revenue Trend',             section: 'Revenue & Income',  wide: true  },
   { key: '02_ytd_revenue',      label: 'YTD Revenue vs Prior Year', section: 'Revenue & Income',  wide: false },
   { key: '03_revenue_by_source',label: 'Revenue by Source',         section: 'Revenue & Income',  wide: false },
-  // Expenses
   { key: '04_expense_breakdown',label: 'Expense Breakdown',         section: 'Expenses',          wide: false },
   { key: '05_top_expenses',     label: 'Top Expense Categories',    section: 'Expenses',          wide: false },
   { key: '06_mom_expenses',     label: 'Month-over-Month Expenses', section: 'Expenses',          wide: true  },
-  // Profitability
   { key: '07_net_income',       label: 'Net Income Trend',          section: 'Profitability',     wide: true  },
   { key: '08_margin_trend',     label: 'Profit Margin Trend',       section: 'Profitability',     wide: false },
   { key: '09_opex_ratio',       label: 'Operating Expense Ratio',   section: 'Profitability',     wide: false },
-  // Cash Flow
   { key: '10_cash_flow',        label: 'Monthly Cash Flow',         section: 'Cash Flow',         wide: true  },
   { key: '11_cash_position',    label: 'Cash Position Over Time',   section: 'Cash Flow',         wide: false },
   { key: '12_cash_runway',      label: 'Cash Runway (90-Day)',      section: 'Cash Flow',         wide: false },
-  // Tax Planning
   { key: '13_tax_tracker',      label: 'Quarterly Tax Tracker',     section: 'Tax Planning',      wide: false },
-  { key: '14_ytd_tax_summary',  label: 'YTD Tax Summary',          section: 'Tax Planning',      wide: false },
-  // Receivables
+  { key: '14_ytd_tax_summary',  label: 'YTD Tax Summary',           section: 'Tax Planning',      wide: false },
   { key: '15_ar_aging',         label: 'A/R Aging',                 section: 'Receivables',       wide: true  },
 ]
 
 const SECTIONS = CHART_CATALOG.map(c => c.section).filter((s, i, a) => a.indexOf(s) === i)
+
+type Tab = 'reports' | 'billing' | 'settings'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -86,20 +81,27 @@ interface Props {
 }
 
 export default function DashboardClient({ userId, businessName, contactName, availableMonths }: Props) {
-  const router  = useRouter()
+  const router   = useRouter()
   const supabase = createClient()
 
+  const [tab, setTab]             = useState<Tab>('reports')
   const [month, setMonth]         = useState(availableMonths[0] ?? '')
   const [kpi, setKpi]             = useState<KPI | null>(null)
   const [chartUrls, setChartUrls] = useState<Record<string, string>>({})
   const [loading, setLoading]     = useState(false)
   const [signingOut, setSigningOut] = useState(false)
-  const [showPwForm, setShowPwForm]   = useState(false)
-  const [newPw, setNewPw]             = useState('')
-  const [confirmPw, setConfirmPw]     = useState('')
-  const [pwError, setPwError]         = useState('')
-  const [pwSuccess, setPwSuccess]     = useState(false)
-  const [pwLoading, setPwLoading]     = useState(false)
+  const [userEmail, setUserEmail]   = useState('')
+
+  // Password change state
+  const [newPw, setNewPw]         = useState('')
+  const [confirmPw, setConfirmPw] = useState('')
+  const [pwError, setPwError]     = useState('')
+  const [pwSuccess, setPwSuccess] = useState(false)
+  const [pwLoading, setPwLoading] = useState(false)
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUserEmail(data.user?.email ?? ''))
+  }, [supabase])
 
   const loadMonthData = useCallback(async (ym: string) => {
     if (!ym) return
@@ -109,23 +111,17 @@ export default function DashboardClient({ userId, businessName, contactName, ava
 
     const prefix = `${userId}/${ym}`
 
-    // Fetch KPI JSON
     try {
       const { data } = await supabase.storage.from('client-charts').download(`${prefix}/kpi.json`)
-      if (data) {
-        const text = await data.text()
-        setKpi(JSON.parse(text))
-      }
-    } catch { /* kpi not uploaded yet */ }
+      if (data) setKpi(JSON.parse(await data.text()))
+    } catch { /* kpi not yet uploaded */ }
 
-    // Build signed URLs for each chart
     const urls: Record<string, string> = {}
     await Promise.all(
       CHART_CATALOG.map(async ({ key }) => {
-        const path = `${prefix}/${key}.png`
         const { data } = await supabase.storage
           .from('client-charts')
-          .createSignedUrl(path, 60 * 60) // 1 hour
+          .createSignedUrl(`${prefix}/${key}.png`, 60 * 60)
         if (data?.signedUrl) urls[key] = data.signedUrl
       })
     )
@@ -147,7 +143,7 @@ export default function DashboardClient({ userId, businessName, contactName, ava
     setPwSuccess(true)
     setNewPw('')
     setConfirmPw('')
-    setTimeout(() => { setShowPwForm(false); setPwSuccess(false) }, 2000)
+    setTimeout(() => setPwSuccess(false), 3000)
   }
 
   async function signOut() {
@@ -186,8 +182,8 @@ export default function DashboardClient({ userId, businessName, contactName, ava
           <div className="flex items-center gap-5">
             <span className="hidden sm:block text-silver/40 text-sm">{contactName || businessName}</span>
             <button
-              onClick={() => { setShowPwForm(v => !v); setPwError(''); setPwSuccess(false) }}
-              className="text-silver/40 hover:text-silver/70 text-sm transition-colors"
+              onClick={() => setTab('settings')}
+              className={`text-sm transition-colors ${tab === 'settings' ? 'text-teal-400' : 'text-silver/40 hover:text-silver/70'}`}
             >
               Settings
             </button>
@@ -204,14 +200,14 @@ export default function DashboardClient({ userId, businessName, contactName, ava
 
       <main className="relative max-w-7xl mx-auto px-6 pt-24 pb-10">
         {/* ── Page header ── */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="font-display font-bold text-white text-2xl">{businessName}</h1>
             <p className="text-silver/40 text-sm mt-0.5">Financial Dashboard</p>
           </div>
 
-          {/* Month selector */}
-          {availableMonths.length > 0 ? (
+          {/* Month selector — only on reports tab */}
+          {tab === 'reports' && availableMonths.length > 0 && (
             <div className="flex items-center gap-2">
               <label className="text-silver/40 text-xs font-medium tracking-wide uppercase">Period</label>
               <select
@@ -224,107 +220,213 @@ export default function DashboardClient({ userId, businessName, contactName, ava
                 ))}
               </select>
             </div>
-          ) : null}
+          )}
         </div>
 
-        {/* ── Empty state ── */}
-        {availableMonths.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-32 text-center">
-            <div className="w-16 h-16 rounded-full bg-navy-800 flex items-center justify-center mb-4">
-              <svg className="w-7 h-7 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                  d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <h2 className="text-white font-semibold text-lg mb-2">Your reports are on the way</h2>
-            <p className="text-silver/40 text-sm max-w-xs">
-              Your first financial reports will appear here once your books are processed for the month.
-            </p>
-          </div>
-        )}
+        {/* ── Tab bar ── */}
+        <div className="flex items-center gap-1 mb-8 border-b border-white/5">
+          {(['reports', 'billing', 'settings'] as Tab[]).map(t => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className={`px-4 py-2.5 text-sm font-medium capitalize transition-colors border-b-2 -mb-px ${
+                tab === t
+                  ? 'border-teal-500 text-teal-400'
+                  : 'border-transparent text-silver/40 hover:text-silver/70'
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
 
-        {/* ── Loading ── */}
-        {loading && (
-          <div className="flex items-center justify-center py-20">
-            <div className="w-8 h-8 border-2 border-teal-600/30 border-t-teal-600 rounded-full animate-spin" />
-          </div>
-        )}
-
-        {/* ── No data for selected month ── */}
-        {noData && availableMonths.length > 0 && (
-          <div className="flex flex-col items-center justify-center py-24 text-center">
-            <p className="text-silver/40 text-sm">No reports uploaded for {formatMonth(month)} yet.</p>
-          </div>
-        )}
-
-        {/* ── KPI Cards ── */}
-        {!loading && kpi && (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-            {[
-              { label: 'Revenue',       value: kpi.revenue,       change: kpi.revenue_change,    positive: true  },
-              { label: 'Expenses',      value: kpi.expenses,      change: kpi.expenses_change,   positive: false },
-              { label: 'Net Income',    value: kpi.net_income,    change: kpi.net_income_change, positive: true  },
-              { label: 'Cash Position', value: kpi.cash_position, change: kpi.cash_change,       positive: true  },
-            ].map(({ label, value, change, positive }) => (
-              <div key={label} className="bg-navy-700/60 border border-white/5 rounded-xl p-5">
-                <p className="text-silver/40 text-xs font-medium tracking-wide uppercase mb-2">{label}</p>
-                <p className={`font-display font-bold text-2xl mb-1 ${value >= 0 ? 'text-white' : 'text-red-400'}`}>
-                  {fmt(value)}
-                </p>
-                <div className="flex items-center gap-1 text-silver/30 text-xs">
-                  <ChangeChip pct={positive ? change : -change} />
-                  <span>vs last month</span>
+        {/* ══════════════════════════════════════════════════════
+            REPORTS TAB
+        ══════════════════════════════════════════════════════ */}
+        {tab === 'reports' && (
+          <>
+            {availableMonths.length === 0 && (
+              <div className="flex flex-col items-center justify-center py-32 text-center">
+                <div className="w-16 h-16 rounded-full bg-navy-800 flex items-center justify-center mb-4">
+                  <svg className="w-7 h-7 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                      d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
                 </div>
+                <h2 className="text-white font-semibold text-lg mb-2">Your reports are on the way</h2>
+                <p className="text-silver/40 text-sm max-w-xs">
+                  Your first financial reports will appear here once your books are processed for the month.
+                </p>
               </div>
-            ))}
-          </div>
-        )}
+            )}
 
-        {/* ── Chart Sections ── */}
-        {!loading && Object.keys(chartUrls).length > 0 && SECTIONS.map(section => {
-          const sectionCharts = CHART_CATALOG.filter(
-            c => c.section === section && chartUrls[c.key]
-          )
-          if (sectionCharts.length === 0) return null
-
-          return (
-            <div key={section} className="mb-12">
-              <div className="flex items-center gap-3 mb-5">
-                <h2 className="text-white font-semibold text-base">{section}</h2>
-                <div className="flex-1 h-px bg-white/5" />
+            {loading && (
+              <div className="flex items-center justify-center py-20">
+                <div className="w-8 h-8 border-2 border-teal-600/30 border-t-teal-600 rounded-full animate-spin" />
               </div>
+            )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {sectionCharts.map(({ key, label, wide }) => (
-                  <div
-                    key={key}
-                    className={`bg-navy-700/60 border border-white/5 rounded-xl overflow-hidden ${wide ? 'md:col-span-2' : ''}`}
-                  >
-                    <div className="px-5 py-3.5 border-b border-white/5">
-                      <p className="text-silver/60 text-xs font-medium tracking-wide uppercase">{label}</p>
-                    </div>
-                    <div className="p-4">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={chartUrls[key]}
-                        alt={label}
-                        className="w-full rounded-lg"
-                        loading="lazy"
-                      />
+            {noData && availableMonths.length > 0 && (
+              <div className="flex flex-col items-center justify-center py-24 text-center">
+                <p className="text-silver/40 text-sm">No reports uploaded for {formatMonth(month)} yet.</p>
+              </div>
+            )}
+
+            {!loading && kpi && (
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+                {[
+                  { label: 'Revenue',       value: kpi.revenue,       change: kpi.revenue_change,    positive: true  },
+                  { label: 'Expenses',      value: kpi.expenses,      change: kpi.expenses_change,   positive: false },
+                  { label: 'Net Income',    value: kpi.net_income,    change: kpi.net_income_change, positive: true  },
+                  { label: 'Cash Position', value: kpi.cash_position, change: kpi.cash_change,       positive: true  },
+                ].map(({ label, value, change, positive }) => (
+                  <div key={label} className="bg-navy-700/60 border border-white/5 rounded-xl p-5">
+                    <p className="text-silver/40 text-xs font-medium tracking-wide uppercase mb-2">{label}</p>
+                    <p className={`font-display font-bold text-2xl mb-1 ${value >= 0 ? 'text-white' : 'text-red-400'}`}>
+                      {fmt(value)}
+                    </p>
+                    <div className="flex items-center gap-1 text-silver/30 text-xs">
+                      <ChangeChip pct={positive ? change : -change} />
+                      <span>vs last month</span>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-          )
-        })}
+            )}
 
-        {/* ── Change Password Panel ── */}
-        {showPwForm && (
-          <div className="mb-10 max-w-sm">
+            {!loading && Object.keys(chartUrls).length > 0 && SECTIONS.map(section => {
+              const sectionCharts = CHART_CATALOG.filter(c => c.section === section && chartUrls[c.key])
+              if (sectionCharts.length === 0) return null
+              return (
+                <div key={section} className="mb-12">
+                  <div className="flex items-center gap-3 mb-5">
+                    <h2 className="text-white font-semibold text-base">{section}</h2>
+                    <div className="flex-1 h-px bg-white/5" />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {sectionCharts.map(({ key, label, wide }) => (
+                      <div
+                        key={key}
+                        className={`bg-navy-700/60 border border-white/5 rounded-xl overflow-hidden ${wide ? 'md:col-span-2' : ''}`}
+                      >
+                        <div className="px-5 py-3.5 border-b border-white/5">
+                          <p className="text-silver/60 text-xs font-medium tracking-wide uppercase">{label}</p>
+                        </div>
+                        <div className="p-4">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={chartUrls[key]} alt={label} className="w-full rounded-lg" loading="lazy" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
+          </>
+        )}
+
+        {/* ══════════════════════════════════════════════════════
+            BILLING TAB
+        ══════════════════════════════════════════════════════ */}
+        {tab === 'billing' && (
+          <div className="max-w-2xl space-y-6">
+            {/* Current plan */}
+            <div className="bg-navy-700/60 border border-white/5 rounded-xl p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <p className="text-silver/40 text-xs font-medium tracking-wide uppercase mb-1">Current Plan</p>
+                  <h3 className="text-white font-semibold text-lg">Monthly Bookkeeping</h3>
+                </div>
+                <span className="inline-flex items-center gap-1.5 bg-teal-600/15 text-teal-400 text-xs font-medium px-3 py-1 rounded-full border border-teal-600/20">
+                  <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
+                  Active
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-white/5">
+                {[
+                  { label: 'Billing Cycle', value: 'Monthly' },
+                  { label: 'Reports Delivered', value: 'By the 10th' },
+                  { label: 'Includes', value: '15 financial charts + KPI summary' },
+                ].map(({ label, value }) => (
+                  <div key={label}>
+                    <p className="text-silver/30 text-xs tracking-wide uppercase mb-1">{label}</p>
+                    <p className="text-silver/80 text-sm">{value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* What's included */}
+            <div className="bg-navy-700/60 border border-white/5 rounded-xl p-6">
+              <h3 className="text-white font-semibold text-sm mb-4">What&apos;s Included</h3>
+              <ul className="space-y-3">
+                {[
+                  'Monthly transaction categorization & reconciliation',
+                  'Profit & loss statement',
+                  'Cash flow analysis',
+                  'Tax planning tracker (quarterly estimates)',
+                  'A/R aging report',
+                  'Dedicated portal access with 15 interactive charts',
+                  'Direct access to your bookkeeper',
+                ].map(item => (
+                  <li key={item} className="flex items-start gap-3 text-sm text-silver/60">
+                    <svg className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Billing contact */}
+            <div className="bg-navy-700/60 border border-white/5 rounded-xl p-6">
+              <h3 className="text-white font-semibold text-sm mb-1">Billing Questions</h3>
+              <p className="text-silver/40 text-sm mb-4">
+                For invoices, payment methods, or changes to your plan, reach out directly.
+              </p>
+              <a
+                href="mailto:FordFox@sailfishfinancial.com"
+                className="inline-flex items-center gap-2 text-teal-400 hover:text-teal-300 text-sm font-medium transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                FordFox@sailfishfinancial.com
+              </a>
+            </div>
+          </div>
+        )}
+
+        {/* ══════════════════════════════════════════════════════
+            SETTINGS TAB
+        ══════════════════════════════════════════════════════ */}
+        {tab === 'settings' && (
+          <div className="max-w-2xl space-y-6">
+            {/* Account info */}
+            <div className="bg-navy-700/60 border border-white/5 rounded-xl p-6">
+              <h3 className="text-white font-semibold text-sm mb-4">Account</h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-silver/30 text-xs tracking-wide uppercase mb-1">Business</p>
+                  <p className="text-silver/80 text-sm">{businessName}</p>
+                </div>
+                <div>
+                  <p className="text-silver/30 text-xs tracking-wide uppercase mb-1">Contact Name</p>
+                  <p className="text-silver/80 text-sm">{contactName || '—'}</p>
+                </div>
+                <div>
+                  <p className="text-silver/30 text-xs tracking-wide uppercase mb-1">Email</p>
+                  <p className="text-silver/80 text-sm">{userEmail || '—'}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Change password */}
             <div className="bg-navy-700/60 border border-white/5 rounded-xl p-6">
               <h3 className="text-white font-semibold text-sm mb-4">Change Password</h3>
-              <div className="flex flex-col gap-3">
+              <div className="space-y-3 max-w-sm">
                 <div>
                   <label className="block text-silver/50 text-xs font-medium mb-1.5 tracking-wide uppercase">New Password</label>
                   <input
@@ -332,7 +434,7 @@ export default function DashboardClient({ userId, businessName, contactName, ava
                     value={newPw}
                     onChange={e => setNewPw(e.target.value)}
                     placeholder="Min. 8 characters"
-                    className="w-full bg-navy-700/60 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-silver/20 focus:outline-none focus:border-teal-600 transition-colors"
+                    className="w-full bg-navy-800/60 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-silver/20 focus:outline-none focus:border-teal-600 transition-colors"
                   />
                 </div>
                 <div>
@@ -342,27 +444,50 @@ export default function DashboardClient({ userId, businessName, contactName, ava
                     value={confirmPw}
                     onChange={e => setConfirmPw(e.target.value)}
                     placeholder="Re-enter password"
-                    className="w-full bg-navy-700/60 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-silver/20 focus:outline-none focus:border-teal-600 transition-colors"
+                    className="w-full bg-navy-800/60 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm placeholder-silver/20 focus:outline-none focus:border-teal-600 transition-colors"
                   />
                 </div>
                 {pwError   && <p className="text-red-400 text-xs">{pwError}</p>}
                 {pwSuccess  && <p className="text-teal-400 text-xs">Password updated successfully.</p>}
-                <div className="flex gap-3 mt-1">
-                  <button
-                    onClick={changePassword}
-                    disabled={pwLoading}
-                    className="flex-1 bg-teal-600 hover:bg-teal-500 disabled:opacity-50 text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
-                  >
-                    {pwLoading ? 'Saving…' : 'Save Password'}
-                  </button>
-                  <button
-                    onClick={() => { setShowPwForm(false); setPwError(''); setNewPw(''); setConfirmPw('') }}
-                    className="px-4 text-silver/40 hover:text-silver/70 text-sm transition-colors"
-                  >
-                    Cancel
-                  </button>
-                </div>
+                <button
+                  onClick={changePassword}
+                  disabled={pwLoading}
+                  className="bg-teal-600 hover:bg-teal-500 disabled:opacity-50 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-colors"
+                >
+                  {pwLoading ? 'Saving…' : 'Update Password'}
+                </button>
               </div>
+            </div>
+
+            {/* Support */}
+            <div className="bg-navy-700/60 border border-white/5 rounded-xl p-6">
+              <h3 className="text-white font-semibold text-sm mb-1">Need Help?</h3>
+              <p className="text-silver/40 text-sm mb-4">
+                Questions about your account or reports? Get in touch.
+              </p>
+              <a
+                href="mailto:FordFox@sailfishfinancial.com"
+                className="inline-flex items-center gap-2 text-teal-400 hover:text-teal-300 text-sm font-medium transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                FordFox@sailfishfinancial.com
+              </a>
+            </div>
+
+            {/* Sign out */}
+            <div className="bg-navy-700/60 border border-white/5 rounded-xl p-6">
+              <h3 className="text-white font-semibold text-sm mb-1">Sign Out</h3>
+              <p className="text-silver/40 text-sm mb-4">Sign out of the client portal on this device.</p>
+              <button
+                onClick={signOut}
+                disabled={signingOut}
+                className="bg-red-600/20 hover:bg-red-600/30 border border-red-600/20 text-red-400 hover:text-red-300 text-sm font-medium px-5 py-2.5 rounded-lg transition-colors disabled:opacity-50"
+              >
+                {signingOut ? 'Signing out…' : 'Sign Out'}
+              </button>
             </div>
           </div>
         )}
