@@ -48,8 +48,8 @@ export default function PortalLogin() {
         <div className="flex flex-col items-center mb-10">
           <Logo className="h-12 w-auto mb-4" />
           <span className="flex flex-col items-center leading-none gap-0.5">
-            <span style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 400, fontSize: '0.9rem', color: 'white', letterSpacing: '0.2em' }}>Sailfish</span>
-            <span style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 700, fontSize: '1rem', color: '#14A8C8', letterSpacing: '0.25em' }}>Financial</span>
+            <span style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 400, fontSize: '0.9rem', color: 'white', letterSpacing: '0.08em' }}>Sailfish</span>
+            <span style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 700, fontSize: '1rem', color: '#14A8C8', letterSpacing: '0.1em' }}>Financial</span>
           </span>
           <p className="text-silver/30 text-xs mt-3 tracking-widest uppercase">Client Portal</p>
         </div>

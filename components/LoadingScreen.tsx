@@ -72,7 +72,7 @@ export default function LoadingScreen() {
           fontWeight: 400,
           fontSize: '1.4rem',
           color: 'white',
-          letterSpacing: '0.28em',
+          letterSpacing: '0.08em',
           textTransform: 'uppercase',
         }}>
           Sailfish
@@ -82,7 +82,7 @@ export default function LoadingScreen() {
           fontWeight: 700,
           fontSize: '1.4rem',
           color: '#14A8C8',
-          letterSpacing: '0.32em',
+          letterSpacing: '0.1em',
           textTransform: 'uppercase',
         }}>
           Financial

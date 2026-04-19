@@ -172,8 +172,8 @@ export default function DashboardClient({ userId, businessName, contactName, ava
           <div className="flex items-center gap-3">
             <Logo className="h-11 w-auto" />
             <span className="flex flex-col leading-none">
-              <span style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 400, fontSize: '0.95rem', color: 'white', letterSpacing: '0.2em' }}>Sailfish</span>
-              <span style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 700, fontSize: '1.05rem', color: '#14A8C8', letterSpacing: '0.25em' }}>Financial</span>
+              <span style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 400, fontSize: '0.95rem', color: 'white', letterSpacing: '0.08em' }}>Sailfish</span>
+              <span style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 700, fontSize: '1.05rem', color: '#14A8C8', letterSpacing: '0.1em' }}>Financial</span>
             </span>
             <span className="hidden sm:block text-white/15 mx-2">·</span>
             <span className="hidden sm:block text-silver/50 text-sm">Client Portal</span>
