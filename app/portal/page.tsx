@@ -70,7 +70,7 @@ export default function PortalLogin() {
         <div className="relative">
           <p
             className="text-white/80 text-4xl font-serif leading-snug mb-6"
-            style={{ fontFamily: 'var(--font-serif)' }}
+            style={{ fontFamily: 'var(--font-cormorant)' }}
           >
             Your books,<br />
             <span className="text-teal-400 italic">handled.</span>

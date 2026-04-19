@@ -43,7 +43,7 @@ export default function Hero() {
               className={`text-white leading-[1.05] mb-8
                 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
               style={{
-                fontFamily: 'var(--font-playfair)',
+                fontFamily: 'var(--font-cormorant)',
                 fontSize: 'clamp(3rem, 6.5vw, 5.5rem)',
                 fontWeight: 700,
                 transitionDelay: '180ms',
