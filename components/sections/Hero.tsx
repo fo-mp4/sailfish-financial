@@ -73,7 +73,7 @@ export default function Hero() {
             >
               <Link
                 href="/get-started"
-                className="inline-flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-500 text-white font-medium px-7 py-3.5 rounded transition-colors text-sm"
+                className="inline-flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-600 text-white font-medium px-7 py-3.5 rounded transition-colors text-sm"
               >
                 Get started
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

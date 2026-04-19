@@ -15,7 +15,7 @@ export default function CTABand() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-500 text-white font-medium px-8 py-4 rounded text-base transition-colors"
+            className="inline-flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-600 text-white font-medium px-8 py-4 rounded text-base transition-colors"
           >
             Schedule a free call
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

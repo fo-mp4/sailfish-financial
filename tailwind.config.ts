@@ -23,6 +23,11 @@ const config: Config = {
           300: '#1DC4E8',
         },
         silver: '#C8D8E8',
+        gold: {
+          600: '#A67C2A',
+          500: '#C8973A',
+          400: '#D4AD5C',
+        },
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],

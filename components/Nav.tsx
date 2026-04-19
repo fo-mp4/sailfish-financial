@@ -27,7 +27,7 @@ export default function Nav() {
           <Link href="/portal"    className="text-sm text-silver/70 hover:text-white transition-colors">Client Portal</Link>
           <Link
             href="/get-started"
-            className="text-sm font-medium bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded transition-colors"
+            className="text-sm font-medium bg-gold-500 hover:bg-gold-600 text-white px-4 py-2 rounded transition-colors"
           >
             Get Started
           </Link>
@@ -55,7 +55,7 @@ export default function Nav() {
           <Link href="/#why-us"      className="text-sm text-silver/70 hover:text-white py-2" onClick={() => setOpen(false)}>Why Us</Link>
           <Link href="/contact"      className="text-sm text-silver/70 hover:text-white py-2" onClick={() => setOpen(false)}>Contact</Link>
           <Link href="/portal"       className="text-sm text-silver/70 hover:text-white py-2" onClick={() => setOpen(false)}>Client Portal</Link>
-          <Link href="/get-started"  className="text-sm font-medium bg-teal-600 text-white px-4 py-2 rounded text-center" onClick={() => setOpen(false)}>Get Started</Link>
+          <Link href="/get-started"  className="text-sm font-medium bg-gold-500 hover:bg-gold-600 text-white px-4 py-2 rounded text-center" onClick={() => setOpen(false)}>Get Started</Link>
         </div>
       )}
     </header>

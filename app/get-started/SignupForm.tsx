@@ -9,7 +9,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full bg-teal-600 hover:bg-teal-500 disabled:bg-teal-800 disabled:cursor-not-allowed text-white font-medium py-3 px-6 rounded transition-colors text-sm"
+      className="w-full bg-gold-500 hover:bg-gold-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-3 px-6 rounded transition-colors text-sm"
     >
       {pending ? 'Sending…' : 'Send My Info'}
     </button>
