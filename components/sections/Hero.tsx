@@ -3,6 +3,12 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
+const STEPS = [
+  { number: '01', title: 'Connect your accounts',   body: 'A 30-min call, then share read-only access to your accounts. No installs, no setup on your end.' },
+  { number: '02', title: 'We handle your books',    body: 'Every month we categorize, reconcile, and close your books. If something looks off, we flag it.' },
+  { number: '03', title: 'You get a clear picture', body: 'By the 10th your dashboard updates with 15 charts, a P&L, and your key metrics.' },
+]
+
 export default function Hero() {
   const [loaded, setLoaded] = useState(false)
 
@@ -21,12 +27,12 @@ export default function Hero() {
       <div style={{
         position: 'absolute',
         bottom: 0, left: 0, right: 0,
-        height: '35%',
+        height: '40%',
         background: 'linear-gradient(to bottom, transparent, #071830)',
         pointerEvents: 'none',
       }} />
 
-      {/* Text overlay */}
+      {/* ── Hero text (top) ── */}
       <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'flex-start', zIndex: 10 }}>
         <div className="w-full max-w-6xl mx-auto px-6 pt-36 pb-40">
           <div className="max-w-2xl">
@@ -100,6 +106,43 @@ export default function Hero() {
               <span>Cancel anytime</span>
             </div>
 
+          </div>
+        </div>
+      </div>
+
+      {/* ── How It Works (bottom overlay) ── */}
+      <div
+        className={`absolute bottom-0 inset-x-0 z-20 transition-all duration-700
+          ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        style={{ transitionDelay: '700ms' }}
+      >
+        <div className="max-w-6xl mx-auto px-6 pb-10">
+          {/* Label */}
+          <p className="text-white/30 text-xs font-medium tracking-[0.22em] uppercase mb-6">
+            How it works
+          </p>
+
+          {/* Steps */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-0 sm:divide-x sm:divide-white/8">
+            {STEPS.map((step) => (
+              <div key={step.number} className="sm:px-8 first:pl-0 last:pr-0">
+                <span
+                  className="block mb-2"
+                  style={{ fontFamily: 'var(--font-cinzel)', fontSize: '0.65rem', color: '#14A8C8', letterSpacing: '0.08em' }}
+                >
+                  {step.number}
+                </span>
+                <h3
+                  className="text-white mb-1.5"
+                  style={{ fontFamily: 'var(--font-cormorant)', fontSize: '1.1rem', fontWeight: 600 }}
+                >
+                  {step.title}
+                </h3>
+                <p className="text-white/45 text-xs leading-relaxed">
+                  {step.body}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
