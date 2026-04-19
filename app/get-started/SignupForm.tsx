@@ -89,7 +89,7 @@ export default function SignupForm() {
             'QuickBooks setup & cleanup',
             'Year-end tax prep',
             'Full-service (bookkeeping, invoicing, AR)',
-            'Not sure yet — I'd like to talk it through',
+            "Not sure yet — I'd like to talk it through",
           ].map((service) => (
             <label key={service} className="flex items-center gap-3 px-4 py-3 rounded border border-white/10 hover:border-teal-500/40 cursor-pointer transition-colors" style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}>
               <input type="checkbox" name="services" value={service} className="accent-teal-500 w-4 h-4 flex-shrink-0" />
