@@ -9,13 +9,40 @@ export default function Hero() {
   useEffect(() => { setLoaded(true) }, [])
 
   return (
-    <section style={{ position: 'relative', backgroundColor: '#071830' }}>
-      {/* Full image — no cropping */}
+    <section
+      className="hero-section"
+      style={{ position: 'relative', backgroundColor: '#071830' }}
+    >
+      {/* Image — desktop preserves natural ratio, mobile covers */}
       <img
         src="/ocean-hero-1.jpg"
         alt=""
-        style={{ width: '100%', height: 'auto', display: 'block' }}
+        className="hero-img"
       />
+
+      <style>{`
+        .hero-section {
+          min-height: 100vh;
+        }
+        .hero-img {
+          width: 100%;
+          display: block;
+          object-fit: cover;
+          object-position: center;
+          position: absolute;
+          inset: 0;
+          height: 100%;
+        }
+        @media (min-width: 768px) {
+          .hero-section {
+            min-height: 0;
+          }
+          .hero-img {
+            position: static;
+            height: auto;
+          }
+        }
+      `}</style>
 
       {/* Gradient at bottom so Services section blends in */}
       <div style={{
@@ -24,11 +51,12 @@ export default function Hero() {
         height: '40%',
         background: 'linear-gradient(to bottom, transparent, #071830)',
         pointerEvents: 'none',
+        zIndex: 5,
       }} />
 
-      {/* ── Hero text (top) ── */}
-      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'flex-start', zIndex: 10 }}>
-        <div className="w-full max-w-6xl mx-auto px-6 pt-36 pb-40">
+      {/* ── Hero text ── */}
+      <div className="relative md:absolute md:inset-0 flex items-start z-10">
+        <div className="w-full max-w-6xl mx-auto px-6 pt-28 md:pt-36 pb-32 md:pb-40">
           <div className="max-w-2xl">
 
             <p
@@ -89,7 +117,7 @@ export default function Hero() {
             </div>
 
             <div
-              className={`mt-12 flex items-center gap-6 text-white/70 text-xs tracking-wide
+              className={`mt-12 flex flex-wrap items-center gap-x-6 gap-y-2 text-white/70 text-xs tracking-wide
                 transition-all duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}
               style={{ transitionDelay: '560ms' }}
             >

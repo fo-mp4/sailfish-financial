@@ -69,7 +69,7 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" style={{ backgroundColor: '#071830', marginTop: '-120px', position: 'relative', zIndex: 20 }} className="pt-32 pb-28 overflow-hidden">
+    <section id="services" style={{ backgroundColor: '#071830', position: 'relative', zIndex: 20 }} className="pt-20 md:pt-32 md:-mt-[120px] pb-20 md:pb-28 overflow-hidden">
 
       {/* Background glow */}
       <div style={{ position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)', width: '80vw', height: '60vh', background: 'radial-gradient(ellipse, rgba(14,143,172,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
