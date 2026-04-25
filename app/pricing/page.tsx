@@ -181,6 +181,12 @@ export default function PricingPage() {
             <span>Books closed by the 5th every month</span>
           </div>
 
+          {/* Catch-up note */}
+          <p className="mt-6 text-center text-white/25 text-xs leading-relaxed max-w-lg mx-auto">
+            If catch-up work is needed, each prior month we fix is billed at your plan&apos;s monthly rate.
+            We&apos;ll tell you exactly how many months need attention before any work begins.
+          </p>
+
         </div>
       </main>
 

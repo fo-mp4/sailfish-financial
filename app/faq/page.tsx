@@ -32,7 +32,7 @@ const FAQS = [
       },
       {
         q: 'What if I have months of catch-up work?',
-        a: "If your books are significantly behind, we'll give you a one-time catch-up quote before we start. Once we're current, you move to normal monthly pricing. No obligation to continue after the cleanup if you'd prefer to take it from there.",
+        a: "If your books need catch-up work, we bill your monthly plan rate for each prior month we fix — so the cost is predictable and tied directly to the work done. We'll tell you exactly how many months need attention before we start. Once we're current, you move to normal monthly billing. No obligation to continue after the cleanup if you'd prefer to take it from there.",
       },
       {
         q: 'Can I cancel anytime?',
