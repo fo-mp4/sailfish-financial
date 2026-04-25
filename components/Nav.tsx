@@ -22,7 +22,8 @@ export default function Nav() {
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-8">
           <Link href="/#services" className="text-sm text-silver/70 hover:text-white transition-colors">Services</Link>
-          <Link href="/#why-us"   className="text-sm text-silver/70 hover:text-white transition-colors">Why Us</Link>
+          <Link href="/pricing"   className="text-sm text-silver/70 hover:text-white transition-colors">Pricing</Link>
+          <Link href="/faq"       className="text-sm text-silver/70 hover:text-white transition-colors">FAQ</Link>
           <Link href="/contact"   className="text-sm text-silver/70 hover:text-white transition-colors">Contact</Link>
           <Link href="/portal"    className="text-sm text-silver/70 hover:text-white transition-colors">Client Portal</Link>
           <Link
@@ -52,7 +53,8 @@ export default function Nav() {
       {open && (
         <div className="md:hidden px-6 pb-4 flex flex-col gap-4" style={{ backgroundColor: 'rgba(7,24,48,0.95)', backdropFilter: 'blur(8px)' }}>
           <Link href="/#services"    className="text-sm text-silver/70 hover:text-white py-2" onClick={() => setOpen(false)}>Services</Link>
-          <Link href="/#why-us"      className="text-sm text-silver/70 hover:text-white py-2" onClick={() => setOpen(false)}>Why Us</Link>
+          <Link href="/pricing"      className="text-sm text-silver/70 hover:text-white py-2" onClick={() => setOpen(false)}>Pricing</Link>
+          <Link href="/faq"          className="text-sm text-silver/70 hover:text-white py-2" onClick={() => setOpen(false)}>FAQ</Link>
           <Link href="/contact"      className="text-sm text-silver/70 hover:text-white py-2" onClick={() => setOpen(false)}>Contact</Link>
           <Link href="/portal"       className="text-sm text-silver/70 hover:text-white py-2" onClick={() => setOpen(false)}>Client Portal</Link>
           <Link href="/get-started"  className="text-sm font-medium bg-gold-500 hover:bg-gold-600 text-white px-4 py-2 rounded text-center" onClick={() => setOpen(false)}>Get Started</Link>
