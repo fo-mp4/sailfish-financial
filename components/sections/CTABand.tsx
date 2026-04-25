@@ -9,15 +9,15 @@ export default function CTABand() {
           Let&rsquo;s get your books right.
         </h2>
         <p className="text-silver/50 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
-          Free 30-minute call to understand your business and see if we&rsquo;re a fit.
+          Send us a message and we&rsquo;ll follow up within one business day to learn about your business and see if we&rsquo;re a fit.
           No pressure, no pitch deck.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
-            href="/contact"
+            href="/get-started"
             className="inline-flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-600 text-white font-medium px-8 py-4 rounded text-base transition-colors"
           >
-            Schedule a free call
+            Get started
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>

@@ -22,7 +22,10 @@ export default function GetStartedPage() {
         </div>
 
         <p className="text-silver/25 text-xs text-center mt-6">
-          Prefer to talk first? Call or text (770) 580-9850 or email us at hello@sailfishfinancial.com
+          Questions first?{' '}
+          <a href="mailto:FordFox@sailfishfinancial.com" className="text-silver/40 hover:text-teal-400 transition-colors">
+            FordFox@sailfishfinancial.com
+          </a>
         </p>
       </div>
     </main>

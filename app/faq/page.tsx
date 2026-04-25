@@ -11,11 +11,11 @@ const FAQS = [
     items: [
       {
         q: 'How does onboarding work?',
-        a: "We start with a free 30-minute call to understand your business. After that, you give us read-only access to your bank accounts and any existing accounting software — no installs, no setup on your end. We handle the rest. Most clients are fully onboarded within a week.",
+        a: "You fill out a short intake form, add us as an accountant user in your QuickBooks Online, and share read-only access to your bank accounts. We need that access confirmed before your subscription starts so we can make sure we have everything required to do the work. No installs, no setup on your end beyond that — most clients are fully onboarded within a week.",
       },
       {
         q: 'What software do you use?',
-        a: "We work in QuickBooks Online. If you don't already have it, your subscription is included in your monthly plan. If you're on a different platform, we can discuss migration — it's usually straightforward.",
+        a: "We work in QuickBooks Online. You'll need an active QuickBooks subscription and will add us as an accountant user before we begin — this is required prior to your subscription starting. If you're on a different platform, we can discuss migration — it's usually straightforward.",
       },
       {
         q: 'Do I need to do anything each month?',
@@ -70,7 +70,7 @@ const FAQS = [
       },
       {
         q: 'What if I have a question between monthly reports?',
-        a: "Email or call anytime. Same-day replies during business hours. Growth and Pro clients have a direct line for calls and texts. We're not a ticket system — we're a small business that works with small businesses.",
+        a: "Email anytime — same-day replies during business hours. We're not a ticket system. You get a direct email thread with the person actually working on your books, not a support queue.",
       },
     ],
   },

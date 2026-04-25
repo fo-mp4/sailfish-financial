@@ -108,7 +108,7 @@ export default function Services() {
           <p className="text-white/40 text-sm">
             Not sure what you need?{' '}
             <a href="/contact" className="text-teal-400 hover:text-teal-300 transition-colors underline underline-offset-4">
-              Let&apos;s talk — free 30-minute call, no commitment.
+              Not sure what you need? <a href="/contact" className="text-teal-400 hover:text-teal-300 transition-colors underline underline-offset-4">Send us a message</a> and we&apos;ll point you in the right direction.
             </a>
           </p>
         </div>

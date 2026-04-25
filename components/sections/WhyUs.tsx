@@ -43,7 +43,7 @@ export default function WhyUs() {
               you&apos;ve never met. Sailfish is focused entirely on small businesses in the US.
             </p>
             <p className="text-white/65 text-lg leading-relaxed mb-8">
-              You get fast turnaround, honest pricing, and a real person who picks up the phone.
+              You get fast turnaround, honest pricing, and a real person who responds same day.
               No jargon, no runaround.
             </p>
             <a

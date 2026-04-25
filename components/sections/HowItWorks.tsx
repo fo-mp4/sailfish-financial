@@ -2,7 +2,7 @@ const STEPS = [
   {
     number: '01',
     title: 'Connect your accounts',
-    body: 'We start with a 30-minute call to understand your business. Then you share read-only access to your bank accounts and any existing software — no installs, no setup on your end.',
+    body: 'You fill out a short intake form and add us as an accountant user in your QuickBooks. Then you share read-only access to your bank accounts — no installs, no setup on your end.',
   },
   {
     number: '02',

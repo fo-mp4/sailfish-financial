@@ -11,7 +11,7 @@ const PLANS = [
     features: [
       'Monthly bookkeeping & reconciliation',
       'Monthly P&L and cash flow report',
-      'QuickBooks Online managed for you',
+      'You add us to your QuickBooks as an accountant user',
       'Books closed by the 5th',
       'Email support (same-day replies)',
       'Year-end tax-ready file',
@@ -29,8 +29,8 @@ const PLANS = [
       'Invoicing & collections management',
       'Quarterly tax estimates',
       'Accounts payable tracking',
-      'Priority phone & email support',
-      'Monthly strategy check-in call',
+      'Priority email support (same-day replies)',
+      'Monthly financial summary with key insights',
     ],
     cta: 'Get started',
     highlight: true,
@@ -45,7 +45,7 @@ const PLANS = [
       'Multi-account & entity support',
       'Cash flow forecasting',
       'Payroll coordination',
-      'Direct line — call or text anytime',
+      'Priority email with same-day response guarantee',
       'CPA liaison at year-end',
     ],
     cta: 'Get started',
@@ -156,14 +156,14 @@ export default function PricingPage() {
                 Not sure which plan fits?
               </h3>
               <p className="text-white/50 text-sm leading-relaxed max-w-md">
-                Book a free 30-minute call and we&apos;ll figure it out together. No sales pressure — just an honest conversation about your books.
+                Send us a message and we&apos;ll follow up within one business day. No sales pressure — just an honest conversation about your books.
               </p>
             </div>
             <Link
-              href="/contact"
+              href="/get-started"
               className="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-600 text-white font-medium px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap"
             >
-              Book a free call
+              Get in touch
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -176,7 +176,7 @@ export default function PricingPage() {
             <span className="text-white/15">·</span>
             <span>US-based, Tallahassee FL</span>
             <span className="text-white/15">·</span>
-            <span>QuickBooks Online included</span>
+            <span>QuickBooks access required before start</span>
             <span className="text-white/15">·</span>
             <span>Books closed by the 5th every month</span>
           </div>
